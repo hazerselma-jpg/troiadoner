@@ -1,4 +1,5 @@
-  .tag { border:1px solid #444; padding:4px 10px; border-radius:999px; font-size:.8rem; color:#ccc; }
+@@ -23,78 +23,92 @@
+    .tag { border:1px solid #444; padding:4px 10px; border-radius:999px; font-size:.8rem; color:#ccc; }
 
     .btn-main { görüntüleme: satır içi blok; dolgu: 12 piksel 22 piksel; kenarlık yarıçapı: 999 piksel; arka plan: doğrusal eğim(135 derece,#f6d365,#fda085); renk: #111; yazı tipi ağırlığı: 600; }
     .btn-main small { display:block; font-size:.75rem; opacity:.8; }
