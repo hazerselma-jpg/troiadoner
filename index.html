@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troia Döner | Online Sipariş</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { background:#111; color:#f5f5f5; }
+    a { text-decoration:none; }
+
+    .page { max-width: 900px; margin: 0 auto; padding: 20px; }
+    header { padding: 20px 0; text-align: center; border-bottom: 1px solid #333; }
+    header h1 { font-size: 2.4rem; letter-spacing: .08em; text-transform: uppercase; }
+    header h1 span { color: #f5c451; }
+    header p { margin-top: 8px; color:#aaa; font-size:.95rem; }
+
+    .hero { display:flex; flex-wrap:wrap; align-items:center; gap:20px; padding:30px 0; }
+    .hero-text { flex:1 1 260px; }
+    .hero-text h2 { font-size:1.6rem; margin-bottom:10px; }
+    .hero-text p { color:#ccc; margin-bottom:15px; }
+    .hero-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+    .tag { border:1px solid #444; padding:4px 10px; border-radius:999px; font-size:.8rem; color:#ccc; }
+
+    .btn-main { display:inline-block; padding:12px 22px; border-radius:999px; background: linear-gradient(135deg,#f6d365,#fda085); color:#111; font-weight:600; }
+    .btn-main small { display:block; font-size:.75rem; opacity:.8; }
+
+    .hero-img { flex:1 1 260px; border-radius:16px; border:1px solid #333; padding:10px; background: radial-gradient(circle at top,#333 0,#111 55%); text-align:center; }
+    .hero-img-inner { border-radius:12px; border:1px solid #444; padding:14px; }
+    .hero-img h3 { margin-bottom:6px; }
+    .hero-img p { font-size:.85rem; color:#bbb; }
+
+    .menu { margin-top:10px; padding:20px 0; border-top:1px solid #333; }
+    .menu h2 { margin-bottom:12px; font-size:1.3rem; }
+    .menu-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(230px,1fr)); gap:14px; }
+
+    .item { border:1px solid #333; border-radius:12px; padding:12px; background:#151515; }
+    .item-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+    .item-name { font-weight:600; }
+    .item-price { color:#f5c451; font-weight:600; }
+    .item-desc { font-size:.85rem; color:#bbb; margin-bottom:8px; }
+    .item-note { font-size:.75rem; color:#888; }
+
+    .info { margin:25px 0; display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
+    .info-box { border:1px solid #333; border-radius:12px; padding:12px; background:#151515; font-size:.9rem; }
+    .info-box h3 { margin-bottom:6px; font-size:.95rem; color:#f5c451; }
+
+    footer { border-top:1px solid #333; padding:14px 0; text-align:center; font-size:.8rem; color:#777; }
+
+    @media (max-width:600px){
+      header h1 { font-size:1.8rem; }
+      .hero { padding:20px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>TROIA <span>DÖNER</span></h1>
+      <p>Tarihten gelen lezzet · Çanakkale</p>
+    </header>
+
+    <section class="hero">
+      <div class="hero-text">
+        <h2>Sıcak, taze, sosu tam kararında döner.</h2>
+        <p>Aynı anda hem sokak lezzeti, hem sessiz lüks. Troia Döner şimdi çevrim içi siparişle cebinde.</p>
+
+        <div class="hero-tags">
+          <span class="tag">🔥 Günlük taze ürün</span>
+          <span class="tag">🚚 Paket servis</span>
+          <span class="tag">📍 Çanakkale merkez</span>
+        </div>
+
+        <!-- WHATSAPP NUMARANI BURAYA GİRECEKSİN -->
+        <a class="btn-main" href="https://wa.me/905000000000?text=Merhaba%2C%20Troia%20D%C3%B6ner%20i%C3%A7in%20sipari%C5%9F%20vermek%20istiyorum." target="_blank">
+          WhatsApp’tan Sipariş Ver
+          <small>Sepetini yaz, hemen hazırlayalım.</small>
+        </a>
+      </div>
+
+      <div class="hero-img">
+        <div class="hero-img-inner">
+          <h3>Bugünün önerisi</h3>
+          <p>Pilavüstü tavuk döner + ayran · sosu bol, soğan isteğe bağlı.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="menu">
+      <h2>Menü</h2>
+      <div class="menu-grid">
+        <div class="item">
+          <div class="item-header">
+            <span class="item-name">Pilavüstü Tavuk Döner</span>
+            <span class="item-price">₺ —</span>
+          </div>
+          <p class="item-desc">Tane tane pirinç pilav üzerinde ince dilim tavuk döner, domates ve mor soğan eşliğinde.</p>
+          <p class="item-note">Not: Soğan / sos tercihini sipariş mesajında yazabilirsin.</p>
+        </div>
+
+        <div class="item">
+          <div class="item-header">
+            <span class="item-name">Pilavüstü Et Döner</span>
+            <span class="item-price">₺ —</span>
+          </div>
+          <p class="item-desc">Dana et döner, pilav, köz biber ve domates ile premium sunum.</p>
+          <p class="item-note">Not: Gramaj ve porsiyon bilgisi eklenecek.</p>
+        </div>
+
+        <div class="item">
+          <div class="item-header">
+            <span class="item-name">Lavaş Dürüm</span>
+            <span class="item-price">₺ —</span>
+          </div>
+          <p class="item-desc">Özel lavaşta tavuk veya et döner, isteğe göre turşu biber ve sos.</p>
+          <p class="item-note">Not: İçindekileri siparişte yazabilirsin.</p>
+        </div>
+
+        <div class="item">
+          <div class="item-header">
+            <span class="item-name">İçecekler</span>
+            <span class="item-price">₺ —</span>
+          </div>
+          <p class="item-desc">Cam şişe ayran, kola, gazlı içecekler.</p>
+          <p class="item-note">Not: Miktar ve marka tercihini mesajda belirt.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="info">
+      <div class="info-box">
+        <h3>Çalışma Saatleri</h3>
+        <p>Her gün: 11.00 – 23.00<br/>Yoğun saat: 12.00 – 14.00 / 18.00 – 21.00</p>
+      </div>
+      <div class="info-box">
+        <h3>Konum</h3>
+        <p>Troia Döner · Çanakkale Merkez<br/>Google Haritalar linki buraya gelecek.</p>
+      </div>
+      <div class="info-box">
+        <h3>Telefon</h3>
+        <p>0 (5xx) xxx xx xx<br/>Arayarak da sipariş verebilirsiniz.</p>
+      </div>
+    </section>
+
+    <footer>
+      Troia Döner · Tarihten gelen lezzet
+    </footer>
+  </div>
+</body>
+</html>
