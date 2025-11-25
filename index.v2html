@@ -1,0 +1,190 @@
+  .tag { border:1px solid #444; padding:4px 10px; border-radius:999px; font-size:.8rem; color:#ccc; }
+
+    .btn-main { görüntüleme: satır içi blok; dolgu: 12 piksel 22 piksel; kenarlık yarıçapı: 999 piksel; arka plan: doğrusal eğim(135 derece,#f6d365,#fda085); renk: #111; yazı tipi ağırlığı: 600; }
+    .btn-main small { display:block; font-size:.75rem; opacity:.8; }
+
+    .hero-img { flex:1 1 260px; border-radius:16px; border:1px solid #333; padding:10px; background: radyal-gradient(üstteki daire,#333 0,#111 55%); text-align:center; }
+    .hero-img-inner { kenarlık yarıçapı:12 piksel; kenarlık:1 piksel katı #444; dolgu:14 piksel; }
+    .hero-img h3 { alt kenar boşluğu:6 piksel; }
+    .hero-img p { yazı tipi boyutu: .85rem; renk: #bbb; }
+
+    .menu { kenar boşluğu üst:10px; dolgu:20px 0; kenar boşluğu üst:1px solid #333; }
+    .menu h2 { alt kenar boşluğu:12 piksel; yazı tipi boyutu:1.3rem; }
+    .menu-grid { görüntüleme:ızgara; ızgara-şablon-sütunları: tekrarla(otomatik-uyum,minmax(230px,1fr)); boşluk:14px; }
+
+    .item { border:1px solid #333; border-radius:12px; padding:12px; background:#151515; }
+    .item-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+    .item-name { yazı tipi ağırlığı:600; }
+    .item-price { color:#f5c451; font-weight:600; }
+    .item-desc { yazı tipi boyutu: .85rem; renk: #bbb; alt kenar boşluğu: 8px; }
+    .item-note { yazı tipi boyutu: .75rem; renk: #888; }
+
+    .info { kenar boşluğu:25px 0; görüntüleme:ızgara; boşluk:12px; ızgara-şablonu-sütunları: tekrarla(otomatik-uyum,minmaks(220px,1fr)); }
+    .info-box { border:1px solid #333; border-radius:12px; padding:12px; background:#151515; font-size:.9rem; }
+    .info-box h3 { alt kenar boşluğu: 6 piksel; yazı tipi boyutu: .95rem; renk: #f5c451; }
+
+    .adımlar { kenarlık-üst:1px katı #333; dolgu:20px 0 10px; }
+    .steps h2 { alt kenar boşluğu: 12 piksel; yazı tipi boyutu: 1,15 rem; }
+    .adım-listesi { görüntüleme:ızgara; boşluk:10px; ızgara-şablonu-sütunları: tekrarla(otomatik-uyum,minmaks(260px,1fr)); }
+    .step { ekran:esnek; boşluk:10px; öğeleri hizala:esnek-başlangıç; arka plan:#151515; dolgu:12px; kenarlık yarıçapı:12px; kenarlık:1px düz #2a2a2a; }
+    .adım-sayısı { genişlik:28px; yükseklik:28px; arka plan: doğrusal-eğim(135 derece,#f6d365,#fda085); kenarlık-yarıçapı:%50; renk:#111; görüntü:ızgara; öğeleri-yerleştir:ortaya; yazı-yazı-ağırlığı:700; }
+    .step-text { yazı tipi boyutu: .92rem; renk: #ccc; satır yüksekliği: 1.4; }
+
+    .hızlı-bağlantılar { üst kenar boşluğu: 8px; görüntüleme: kılavuz; boşluk: 10px; kılavuz-şablon-sütunları: tekrarla(otomatik-uyum, en-az-en-fazla(260px, 1fr)); }
+    .quick-card { border:1px solid #333; border-radius:12px; background:#151515; padding:12px; }
+    .quick-card h3 { yazı tipi boyutu:1rem; alt kenar boşluğu:6px; renk:#f5c451; }
+    .quick-card p { renk:#bbb; yazı tipi boyutu:.9rem; alt kenar boşluğu:10px; }
+    .hızlı-eylemler { görüntüleme:esnek; esnek-sarma:sarma; boşluk:8px; }
+    .btn-ghost { görüntüleme: satır içi blok; dolgu: 10 piksel 14 piksel; kenarlık yarıçapı: 10 piksel; kenarlık: 1 piksel düz #444; renk: #f5f5f5; yazı tipi ağırlığı: 600; arka plan: #1a1a1a; }
+
+    altbilgi { border-top:1px solid #333; dolgu:14px 0; metin hizalama:orta; yazı tipi boyutu:.8rem; renk:#777; }
+
+    @media (maksimum genişlik: 600 piksel){
+      başlık h1 { yazı tipi boyutu:1.8rem; }
+      .hero { dolgu:20px 0; }
+    }
+  </ stil >
+</ baş >
+< gövde >
+  < div class = "sayfa" > 
+    < başlık >
+      <h1> TROIA <span> DÖNER </span> </h1>
+      <p>Tarihten gelen lezzet · Çanakkale</p>
+    </ başlık >
+
+    < bölüm sınıfı = "kahraman" > 
+      < div class = "kahraman-metin" > 
+        <h2>Sıcak, taze, sosu tam kararında döner.</h2>
+        <p>Aynı anda hem sokak lezzeti, hem sessiz lüks. Troia Döner şimdi çevrim içi siparişle cebinde.</p>
+
+        < div class = "kahraman-etiketleri" > 
+          <spanclass="tag">🔥 Günlük taze ürün</span> 
+          < span class = "tag" > 🚚 Hizmet paketi </ span > 
+          <spanclass="tag">📍 Çanakkale merkez</span> 
+        </ div >
+
+        <!-- WHATSAPP NUMARANI BURAYA GİRECEKSİN -->
+        < a class = "btn-main" href = "https://wa.me/905 000000000 ?text=Merhaba%2C%20Troia%20D%C3%B6ner%20i%C3%A7in%20sipari%C5%9F%20vermek%20istiyorum." target = "_blank" >   
+        < a class = "btn-main" href = "https://wa.me/905 312345678 ?text=Merhaba%2C%20Troia%20D%C3%B6ner%20i%C3%A7in%20sipari%C5%9F%20vermek%20istiyorum." target = "_blank" >   
+          WhatsApp’tan Sipariş Ver
+          <small>Sepetini yaz, hemen hazırlayalım.</small>
+        </ a >
+      </ div >
+
+      < div class = "kahraman-img" > 
+        < div class = "kahraman-img-inner" > 
+          <h3>Bugünün önerisi</h3>
+          <p>Pilavüstü tavuk döner + ayran · sosu bol, soğan isteğe bağlı.</p>
+        </ div >
+      </ div >
+    </ bölüm >
+
+    < bölüm sınıfı = "menü" > 
+      < h2 > Menü </ h2 >
+      < div class = "menü-ızgarası" > 
+        < div sınıfı = "öğe" > 
+          < div class = "öğe-başlığı" > 
+            <spanclass="item-name">Pilavüstü Tavuk Döner</span> 
+            < span class = "ürün-fiyatı" > ₺ — </ span > 
+          </ div >
+          <pclass="item-desc">Tane tane pirinç pilav üzerinde ince dilim tavuk döner, domates ve mor soğan eşliğinde.</p> 
+          <pclass="item-note">Not: Soğan / sos tercihini sipariş mesajında yazabilirsin.</p> 
+        </ div >
+
+@@ -112,39 +126,94 @@
+            <spanclass="item-name">Lavaş Dürüm</span> 
+            < span class = "ürün-fiyatı" > ₺ — </ span > 
+          </ div >
+          <pclass="item-desc">Özel lavaşta tavuk veya et döner, isteğe göre turşu biber ve sos.</p> 
+          <pclass="item-note">Not: İçindekileri siparişte yazabilirsin.</p> 
+        </ div >
+
+        < div sınıfı = "öğe" > 
+          < div class = "öğe-başlığı" > 
+            <spanclass="item-name">İçecekler</span> 
+            < span class = "ürün-fiyatı" > ₺ — </ span > 
+          </ div >
+          <pclass="item-desc">Cam şişe ayran, kola, gazlı içecekler.</p> 
+          <pclass="item-note">Not: Miktar ve marka tercihini mesajda belirt.</p> 
+        </ div >
+      </ div >
+    </ bölüm >
+
+    < bölüm sınıfı = "bilgi" > 
+      < div class = "bilgi kutusu" > 
+        <h3>Çalışma Saatleri</h3>
+        <p>Her gün: 11.00 – 23.00<br/>Yoğun saat: 12.00 – 14.00 / 18.00 – 21.00</p>
+      </ div >
+      < div class = "bilgi kutusu" > 
+        <h3> Konum </h3>
+        <p>Troia Döner · Çanakkale Merkez<br/>Google Haritalar linki buraya gelecek.</p>
+        < p >
+          Troia Döner · Çanakkale Merkez<br/>
+          <ahref="https://maps.google.com/?q=Troia%20D%C3%B6ner%20%C3%87anakkale"target="_blank">Haritayı aç</a>  
+        </ p >
+      </ div >
+      < div class = "bilgi kutusu" > 
+        <h3> Telefon </h3>
+        <p>0 (5xx) xxx xx xx<br/>Arayarak da sipariş verebilirsiniz.</p>
+        < p >
+          < a href = "tel:+905312345678" > 0 (531) 234 56 78 </ a > < br /> 
+          Arayarak da sipariş verebilirsiniz.
+        </ p >
+      </ div >
+    </ bölüm >
+
+    < bölüm sınıfı = "adımlar" > 
+      <h2>Üç adımda çevrim içi sipariş</h2>
+      < div class = "adım listesi" > 
+        < div class = "adım" > 
+          < div class = "adım-numarası" > 1 </ div > 
+          < div class = "adım-metin" > 
+            Menüyü incele ve istediğin porsiyonları belirle. Notlara sos, soğan veya içecek tercihlerini ekle.
+          </ div >
+        </ div >
+        < div class = "adım" > 
+          < div class = "adım-numarası" > 2 </ div > 
+          < div class = "adım-metin" > 
+            WhatsApp butonuna tıkla; açılan mesaj taslağında siparişini yaz. Konumunu ve teslimat saatini ilet.
+          </ div >
+        </ div >
+        < div class = "adım" > 
+          < div class = "adım-numarası" > 3 </ div > 
+          < div class = "adım-metin" > 
+            Onay mesajını bekle. Hazırlık ve tahmini teslim süresini yazıyoruz; dilersen gel-al seçeneğiyle beklemeden teslim alabilirsin.
+          </ div >
+        </ div >
+      </ div >
+    </ bölüm >
+
+    < bölüm sınıfı = "hızlı bağlantılar" > 
+      < div class = "hızlı-kart" > 
+        <h3>Hemen WhatsApp aç</h3>
+        <p>Numara ve hazır metin girildi. Butona dokunduğunda sohbet penceresi açılır.</p>
+        < div class = "hızlı eylemler" > 
+          <aclass="btn-main"href="https://wa.me/905312345678?text=Merhaba%2C%20Troia%20D%C3%B6ner%20i%C3%A7in%20sipari%C5%9F%20vermek%20istiyorum."target="_blank">Sohbeti Aç</a>   
+          < a class = "btn-ghost" href = "sms:+905312345678?body=Troia%20D%C3%B6ner%20sipari%C5%9F%20i%C3%A7in%20aray%C4%B1n" > SMS ile iste </ a >  
+        </ div >
+      </ div >
+      < div class = "hızlı-kart" > 
+        <h3> Telefonla ara </h3>
+        <p>Konuşmayı tercih ediyorsan tek dokunuşla arama başlat.</p>
+        < div class = "hızlı eylemler" > 
+          < a class = "btn-ghost" href = "tel:+905312345678" > Ara </ a >  
+        </ div >
+      </ div >
+      < div class = "hızlı-kart" > 
+        <h3>Konumu aç</h3>
+        <p>Google Haritalar linki yeni sekmede açılır. Konumu kopyalayıp paylaşabilirsin.</p>
+        < div class = "hızlı eylemler" > 
+          <aclass="btn-ghost"href="https://maps.google.com/?q=Troia%20D%C3%B6ner%20%C3%87anakkale"target="_blank">Haritada Gör</a>   
+        </ div >
+      </ div >
+    </ bölüm >
+
+    < alt bilgi >
+      Troia Döner · Tarihten gelen lezzet
+    </ altbilgi >
+  </ div >
+</ gövde >
+</ html >
