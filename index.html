@@ -102,8 +102,8 @@
     .section h2 { font-size: 1.25rem; margin-bottom: 12px; }
     .muted { color: var(--muted); font-size: 0.95rem; }
 
-    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
-    .menu-card { background: var(--card); border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); box-shadow: var(--shadow); display: flex; flex-direction: column; min-height: 100%; overflow: hidden; }
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; align-items: stretch; grid-auto-rows: 1fr; }
+    .menu-card { background: var(--card); border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); box-shadow: var(--shadow); display: grid; grid-template-rows: auto 1fr; min-height: 100%; overflow: hidden; }
     .menu-img { width: 100%; height: 150px; background: linear-gradient(120deg, rgba(245,196,81,0.08), rgba(242,166,90,0.06)); object-fit: cover; }
     .menu-body { padding: 12px; display: grid; gap: 8px; flex: 1; }
     .menu-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
@@ -125,9 +125,11 @@
 
     /* Cart & CTA dock */
     .dock { position: fixed; right: 18px; bottom: 18px; display: grid; gap: 10px; z-index: 999; }
-    .dock-btn { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); color: #fff; font-weight: 800; box-shadow: var(--shadow); cursor: pointer; }
+    .dock-btn { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); color: #fff; font-weight: 800; box-shadow: var(--shadow); cursor: pointer; justify-content: space-between; min-width: 220px; }
     .dock-btn strong { color: var(--accent); }
     .cart-count { background: var(--accent); color: #111; border-radius: 999px; padding: 4px 8px; font-weight: 900; }
+    .dock-label { display: grid; gap: 2px; text-align: left; }
+    .dock-sub { color: var(--muted); font-weight: 600; font-size: 0.92rem; }
     .cart-panel { position: fixed; right: 18px; bottom: 82px; width: min(420px, 95vw); max-height: 72vh; overflow: auto; background: linear-gradient(180deg, rgba(14,14,18,0.95), rgba(24,20,32,0.95)); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow); padding: 14px; display: none; z-index: 998; }
     .cart-panel header { display: flex; align-items: center; justify-content: space-between; background: transparent; border: none; box-shadow: none; padding: 0 0 8px; }
     .cart-line { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
@@ -306,9 +308,11 @@
   <!-- Cart dock -->
   <div class="dock">
     <button class="dock-btn" id="cartToggle">
-      <span>Sepet</span>
+      <div class="dock-label">
+        <span>Sepete Git</span>
+        <span class="dock-sub">Toplam: <strong id="cartMiniTotal">₺ 0,00</strong></span>
+      </div>
       <span class="cart-count" id="cartCount">0</span>
-      <span id="cartMiniTotal">₺ 0,00</span>
     </button>
     <a class="dock-btn" id="whatsappDock" href="#" target="_blank" rel="noopener">
       <span>WhatsApp</span>
@@ -318,7 +322,7 @@
 
   <div class="cart-panel" id="cartPanel" aria-hidden="true">
     <header>
-      <h3>Sepet Özeti</h3>
+      <h3>Sepet Özeti <span id="cartHeaderTotal" style="color:var(--accent);font-size:1rem;"></span></h3>
       <button class="btn" id="closeCart">Kapat</button>
     </header>
     <div id="cartItems"></div>
@@ -535,7 +539,8 @@
       const item = list.find(i => i.id === id);
       if (!item) return;
       const price = Number(item.price) || 0;
-      const entry = { id, type, name: item.name, price, qty, options: opts || [] };
+      const desc = [item.descMain, item.descExtra].filter(Boolean).join(' — ');
+      const entry = { id, type, name: item.name, price, qty, desc, options: opts || [] };
       cart.push(entry);
       persistCart();
       renderCart();
@@ -555,6 +560,7 @@
         row.innerHTML = `
           <div>
             <h4>${line.name}</h4>
+            ${line.desc ? `<div class="muted">${line.desc}</div>` : ''}
             ${line.options && line.options.length ? `<div class="muted">${line.options.map(o => o.name + (o.price ? ' +' + fmt(o.price) : '')).join(', ')}</div>` : ''}
             <div class="muted">${line.qty} x ${fmt(line.price)}</div>
           </div>
@@ -570,6 +576,7 @@
       document.getElementById('grandTotal').textContent = fmt(subtotal);
       document.getElementById('cartCount').textContent = cart.length;
       document.getElementById('cartMiniTotal').textContent = fmt(subtotal);
+      document.getElementById('cartHeaderTotal').textContent = cart.length ? `• ${fmt(subtotal)}` : '';
       updateWhatsappLink();
       updatePreview();
     }
@@ -622,9 +629,24 @@
       }
     });
 
+    // Dock WhatsApp button should guide user to checkout if bilgiler eksik
+    document.getElementById('whatsappDock').addEventListener('click', (e) => {
+      const result = buildMessage();
+      if (!result || result.error) {
+        e.preventDefault();
+        toast(result?.error || 'Önce sepet ve iletişim bilgilerini tamamlayın');
+        openCheckout();
+      }
+    });
+
     // Checkout modal
     document.getElementById('checkoutBtn').addEventListener('click', () => openCheckout());
     document.getElementById('cancelCheckout').addEventListener('click', closeCheckout);
+    ['custName','custPhone','custAddress','custNote','deliveryType'].forEach(id => {
+      const el = document.getElementById(id);
+      const ev = el.tagName === 'SELECT' ? 'change' : 'input';
+      el.addEventListener(ev, updatePreview);
+    });
 
     function openCheckout() {
       if (!cart.length) { toast('Sepet boş'); return; }
@@ -664,8 +686,11 @@
 
       let text = 'Troia Döner siparişim:\n';
       cart.forEach((line, i) => {
-        const opts = line.options && line.options.length ? ' [' + line.options.map(o => o.name + (o.price ? ' +' + fmt(o.price) : '')).join(', ') + ']' : '';
-        text += `${i+1}) ${line.name} x${line.qty}${opts}\n`;
+        const opts = line.options && line.options.length ? `Seçenekler: ${line.options.map(o => o.name + (o.price ? ' +' + fmt(o.price) : '')).join(', ')}` : 'Seçenekler: Belirtilmedi';
+        const optsTotal = (line.options || []).reduce((s, o) => s + (Number(o.price) || 0), 0);
+        const lineTotal = (line.price + optsTotal) * line.qty;
+        const desc = line.desc ? ` - ${line.desc}` : '';
+        text += `${i+1}) ${line.name} x${line.qty}${desc}\n   ${opts}\n   Satır toplamı: ${fmt(lineTotal)}\n`;
       });
       const total = cart.reduce((s,l)=> s + (l.price + (l.options||[]).reduce((ss,o)=>ss + (Number(o.price)||0),0)) * l.qty, 0);
       text += `\nÖdeme tutarı: ${fmt(total)}\n`;
