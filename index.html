@@ -1,605 +1,890 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Troia Döner | Online Sipariş</title>
-
   <style>
-    :root{
-      --bg-1:#0c0a10; --bg-2:#171320;
-      --accent:#f6d365; --accent-2:#fda085;
-      --card: rgba(24,20,32,0.78);
-      --muted:#bfbfc3;
-      --glass: rgba(255,255,255,0.03);
-      --radius:12px;
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { background:#111; color:#f5f5f5; }
+    a { text-decoration:none; }
+
+    .page { max-width: 900px; margin: 0 auto; padding: 20px; }
+    header { padding: 20px 0; text-align: center; border-bottom: 1px solid #333; }
+    header h1 { font-size: 2.4rem; letter-spacing: .08em; text-transform: uppercase; }
+    header h1 span { color: #f5c451; }
+    header p { margin-top: 8px; color:#aaa; font-size:.95rem; }
+
+    .hero { display:flex; flex-wrap:wrap; align-items:center; gap:20px; padding:30px 0; }
+    .hero-text { flex:1 1 260px; }
+    .hero-text h2 { font-size:1.6rem; margin-bottom:10px; }
+    .hero-text p { color:#ccc; margin-bottom:15px; }
+    .hero-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+    .tag { border:1px solid #444; padding:4px 10px; border-radius:999px; font-size:.8rem; color:#ccc; }
+
+    .btn-main { display:inline-block; padding:12px 22px; border-radius:999px; background: linear-gradient(135deg,#f6d365,#fda085); color:#111; font-weight:600; }
+    .btn-main small { display:block; font-size:.75rem; opacity:.8; }
+
+    .hero-img { flex:1 1 260px; border-radius:16px; border:1px solid #333; padding:10px; background: radial-gradient(circle at top,#333 0,#111 55%); text-align:center; }
+    .hero-img-inner { border-radius:12px; border:1px solid #444; padding:14px; }
+    .hero-img h3 { margin-bottom:6px; }
+    .hero-img p { font-size:.85rem; color:#bbb; }
+
+    .menu { margin-top:10px; padding:20px 0; border-top:1px solid #333; }
+    .menu h2 { margin-bottom:12px; font-size:1.3rem; }
+    .menu-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(230px,1fr)); gap:14px; }
+
+    .item { border:1px solid #333; border-radius:12px; padding:12px; background:#151515; }
+    .item-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+    .item-name { font-weight:600; }
+    .item-price { color:#f5c451; font-weight:600; }
+    .item-desc { font-size:.85rem; color:#bbb; margin-bottom:8px; }
+    .item-note { font-size:.75rem; color:#888; }
+
+    .info { margin:25px 0; display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
+    .info-box { border:1px solid #333; border-radius:12px; padding:12px; background:#151515; font-size:.9rem; }
+    .info-box h3 { margin-bottom:6px; font-size:.95rem; color:#f5c451; }
+
+    footer { border-top:1px solid #333; padding:14px 0; text-align:center; font-size:.8rem; color:#777; }
+
+    @media (max-width:600px){
+      header h1 { font-size:1.8rem; }
+      .hero { padding:20px 0; }
+    :root {
+      --bg-1: #0c0a10;
+      --bg-2: #13101a;
+      --panel: rgba(24, 21, 32, 0.78);
+      --card: rgba(24, 21, 32, 0.88);
+      --accent: #f5c451;
+      --accent-2: #f2a65a;
+      --muted: #b9b8c1;
+      --text: #f6f6f8;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:#f5f5f5;background:
-      radial-gradient(120% 140% at 20% 20%, rgba(253,160,133,0.12), transparent 40%),
-      radial-gradient(120% 120% at 80% 0%, rgba(246,211,101,0.12), transparent 38%),
-      linear-gradient(145deg,var(--bg-1),var(--bg-2));-webkit-font-smoothing:antialiased}
-    .page{max-width:1000px;margin:16px auto;padding:22px;border-radius:18px;background:linear-gradient(120deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
-    header{display:flex;align-items:center;gap:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.04)}
-    header img.logo{height:64px;width:auto;border-radius:10px;background:rgba(255,255,255,0.02);padding:6px}
-    header .brand{display:flex;flex-direction:column}
-    header h1{margin:0;font-size:1.6rem;letter-spacing:.08em;text-transform:uppercase}
-    header p{margin:4px 0 0;color:var(--muted);font-size:.95rem}
 
-    .hero{display:flex;gap:20px;flex-wrap:wrap;align-items:center;padding:18px 0}
-    .hero-text{flex:1 1 360px}
-    .hero-text h2{font-size:1.5rem;margin:0 0 6px}
-    .hero-text p{color:#dcdcdc;margin:0 0 10px}
-    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-    .tag{background:var(--glass);padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.03);color:var(--muted);font-size:.85rem}
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 
-    .btn-main{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#111;padding:10px 16px;border-radius:999px;font-weight:800;text-decoration:none}
+    body {
+      background: radial-gradient(140% 120% at 20% 10%, rgba(245, 196, 81, 0.06), transparent 32%),
+                  radial-gradient(120% 140% at 80% 0%, rgba(242, 166, 90, 0.08), transparent 36%),
+                  linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      color: var(--text);
+      min-height: 100vh;
+      padding: 22px 18px 160px;
+    }
 
-    /* menu */
-    .menu{margin-top:18px}
-    .menu h2{margin:0 0 12px;font-size:1.2rem}
-    .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    a { color: inherit; text-decoration: none; }
 
-    .item{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 26px rgba(0,0,0,0.45);display:flex;flex-direction:column;gap:8px}
-    .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-    .item-name{font-weight:800}
-    .item-price{color:#f5c451;font-weight:800}
-    .item-desc{color:#d7d7d7;font-size:.95rem}
-    .item-note{color:var(--muted);font-size:.85rem}
+    .shell { max-width: 1200px; margin: 0 auto; display: grid; gap: 22px; }
 
-    .item-actions{display:flex;gap:8px;align-items:center;margin-top:6px}
-    .qty-input{width:76px;padding:8px;border-radius:8px;background:rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.04);color:#fff}
-    .btn-action{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:10px;color:#fff;cursor:pointer;font-weight:700}
-    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#111;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:800}
+    header { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 16px; background: linear-gradient(120deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.04); box-shadow: var(--shadow); }
+    .brand-logo { width: 68px; height: 68px; border-radius: 14px; background: linear-gradient(135deg, rgba(245,196,81,0.2), rgba(242,166,90,0.18)); display: grid; place-items: center; overflow: hidden; border: 1px solid rgba(255,255,255,0.04); }
+    .brand-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .brand-title { display: grid; gap: 4px; }
+    .brand-title h1 { letter-spacing: 0.14em; font-size: 1.9rem; color: var(--accent); text-transform: uppercase; }
+    .brand-title p { color: var(--muted); font-size: 0.95rem; }
 
-    .item-opts{display:none;margin-top:10px;border-top:1px solid rgba(255,255,255,0.03);padding-top:10px;gap:8px}
-    .option-group{margin-bottom:6px}
-    .options-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
-    .option-choice{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);cursor:pointer}
-    .option-label{font-size:.92rem;color:#e9e9e9}
+    .hero { display: grid; grid-template-columns: 1.3fr 0.9fr; gap: 18px; padding: 16px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.04); box-shadow: var(--shadow); }
+    .hero h2 { font-size: 1.6rem; margin-bottom: 10px; }
+    .hero p { color: #e1e1e7; line-height: 1.5; margin-bottom: 12px; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .tag { padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.05); color: var(--muted); font-size: 0.85rem; }
 
-    /* cart */
-    .cart-toggle{position:fixed;right:18px;bottom:18px;z-index:10001}
-    .cart-toggle button{background:linear-gradient(0deg,#111,#1b1b1b);color:#fff;border-radius:14px;padding:12px 16px;border:1px solid rgba(255,255,255,0.04);font-weight:800;box-shadow:0 14px 40px rgba(0,0,0,0.45)}
-    .cart-panel{position:fixed;right:18px;bottom:72px;width:min(460px,96%);max-height:80vh;overflow:auto;z-index:10001;background:linear-gradient(180deg, rgba(10,10,12,0.98), rgba(16,16,20,0.98));border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.04);display:none}
-    .cart-item{display:flex;gap:10px;align-items:flex-start;padding:8px;border-bottom:1px solid rgba(255,255,255,0.03)}
-    .cart-item-name{font-weight:800}
-    .cart-controls{margin-left:auto;display:flex;gap:8px;align-items:center}
-    .cart-controls button{background:transparent;border-radius:8px;padding:6px 8px;border:1px solid rgba(255,255,255,0.04);color:#fff;cursor:pointer}
-    .cart-total{margin-top:10px;display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:1.1rem;color:#f5c451}
-    .checkout-form{margin-top:10px;display:flex;flex-direction:column;gap:8px}
-    .checkout-form input,.checkout-form textarea{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.4);color:#fff}
+    .cta { display: inline-flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 14px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #111; font-weight: 800; box-shadow: 0 12px 30px rgba(245,196,81,0.28); }
+    .cta small { display: block; font-size: 0.82rem; opacity: 0.8; }
+
+    .quick-panels { display: grid; gap: 10px; }
+    .info-card { background: var(--card); border-radius: 14px; padding: 12px; border: 1px solid rgba(255,255,255,0.05); box-shadow: var(--shadow); display: grid; gap: 6px; }
+    .info-card h3 { color: var(--accent); font-size: 1rem; }
+    .info-card p, .info-card a { color: #dfe0e6; font-size: 0.95rem; line-height: 1.45; }
+
+    .section { padding: 10px 0; }
+    .section h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .muted { color: var(--muted); font-size: 0.95rem; }
+
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; align-items: stretch; grid-auto-rows: 1fr; }
+    .menu-card { background: var(--card); border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); box-shadow: var(--shadow); display: grid; grid-template-rows: auto 1fr; min-height: 100%; overflow: hidden; }
+    .menu-img { width: 100%; height: 150px; background: linear-gradient(120deg, rgba(245,196,81,0.08), rgba(242,166,90,0.06)); object-fit: cover; }
+    .menu-body { padding: 12px; display: grid; gap: 8px; flex: 1; }
+    .menu-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+    .menu-name { font-weight: 800; font-size: 1.02rem; }
+    .menu-price { color: var(--accent); font-weight: 800; }
+    .menu-desc { color: #e8e8ed; line-height: 1.4; }
+    .menu-extra { color: #c8c7ce; font-size: 0.9rem; }
+    .option-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { padding: 6px 10px; border-radius: 12px; background: rgba(255,255,255,0.05); color: #f1f1f4; border: 1px solid rgba(255,255,255,0.04); font-size: 0.88rem; }
+
+    .card-actions { display: flex; gap: 8px; margin-top: auto; flex-wrap: wrap; }
+    .qty { display: inline-flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 12px; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.06); color: #fff; font-weight: 700; }
+    .qty button { background: transparent; border: none; color: #fff; font-size: 1rem; cursor: pointer; }
+    .btn { padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.06); color: #fff; font-weight: 700; cursor: pointer; }
+    .btn.gold { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #111; border: none; box-shadow: 0 10px 28px rgba(245,196,81,0.28); }
+
+    .drink-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+    .drink-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 12px; display: flex; justify-content: space-between; gap: 10px; align-items: center; box-shadow: var(--shadow); }
+
+    /* Cart & CTA dock */
+    .dock { position: fixed; right: 18px; bottom: 18px; display: grid; gap: 10px; z-index: 999; }
+    .dock-btn { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); color: #fff; font-weight: 800; box-shadow: var(--shadow); cursor: pointer; justify-content: space-between; min-width: 220px; }
+    .dock-btn strong { color: var(--accent); }
+    .cart-count { background: var(--accent); color: #111; border-radius: 999px; padding: 4px 8px; font-weight: 900; }
+    .dock-label { display: grid; gap: 2px; text-align: left; }
+    .dock-sub { color: var(--muted); font-weight: 600; font-size: 0.92rem; }
+    .cart-panel { position: fixed; right: 18px; bottom: 82px; width: min(420px, 95vw); max-height: 72vh; overflow: auto; background: linear-gradient(180deg, rgba(14,14,18,0.95), rgba(24,20,32,0.95)); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow); padding: 14px; display: none; z-index: 998; }
+    .cart-panel header { display: flex; align-items: center; justify-content: space-between; background: transparent; border: none; box-shadow: none; padding: 0 0 8px; }
+    .cart-line { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .cart-line h4 { font-size: 1rem; }
+    .cart-line .muted { font-size: 0.9rem; }
+    .cart-ctrl { display: flex; align-items: center; gap: 6px; }
+    .cart-ctrl button { padding: 6px 8px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.05); color: #fff; cursor: pointer; }
+    .totals { display: grid; gap: 6px; margin-top: 12px; }
+    .totals div { display: flex; justify-content: space-between; }
 
     /* modal */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;place-items:center;z-index:10002}
-    .modal{background:linear-gradient(180deg, rgba(18,18,20,0.98), rgba(22,22,26,0.98));padding:16px;border-radius:12px;max-width:520px;width:min(95%,520px);border:1px solid rgba(255,255,255,0.04)}
-    .modal h3{margin:0 0 8px}
-    .modal .modal-body{max-height:60vh;overflow:auto;margin-bottom:8px}
-    .modal .modal-actions{display:flex;gap:8px;justify-content:flex-end}
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; align-items: center; justify-content: center; z-index: 1200; }
+    .modal { background: var(--panel); border-radius: 16px; padding: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow); width: min(520px, 92vw); max-height: 88vh; overflow: auto; }
+    .modal h3 { margin-bottom: 10px; }
+    .field { display: grid; gap: 6px; margin-bottom: 10px; }
+    .field label { color: var(--muted); font-size: 0.95rem; }
+    .field input, .field textarea, .field select { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.04); color: #fff; }
+    .message-preview { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.08); padding: 10px; border-radius: 12px; color: #e8e8ef; font-size: 0.95rem; white-space: pre-wrap; }
 
-    /* toast */
-    .toast{position:fixed;right:22px;bottom:110px;background:rgba(0,0,0,0.9);color:#fff;padding:8px 12px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.6);opacity:0;transform:translateY(8px);transition:opacity .22s,transform .22s;z-index:10003;pointer-events:none}
-    .toast.show{opacity:1;transform:translateY(0);pointer-events:auto}
+    .admin-toggle { position: fixed; left: 18px; bottom: 18px; z-index: 1000; }
+    .admin-toggle button { padding: 10px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #111; font-weight: 800; box-shadow: var(--shadow); cursor: pointer; }
+    .admin-panel { position: fixed; left: 18px; bottom: 82px; width: min(560px, 95vw); max-height: 80vh; overflow: auto; background: linear-gradient(180deg, rgba(14,14,18,0.95), rgba(24,20,32,0.95)); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 14px; box-shadow: var(--shadow); display: none; z-index: 999; }
+    .admin-panel h4 { margin: 8px 0; color: var(--accent); }
+    .admin-grid { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .admin-panel input, .admin-panel textarea { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.05); color: #fff; }
+    .admin-row { border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 10px; background: rgba(255,255,255,0.02); display: grid; gap: 6px; }
 
-    /* small screens */
-    @media (max-width:720px){
-      header{flex-direction:row;align-items:center}
-      header img.logo{height:48px}
-      .menu-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-      .cart-panel{left:8px;right:8px;width:auto}
+    .toast { position: fixed; right: 18px; top: 18px; background: rgba(0,0,0,0.9); color: #fff; padding: 10px 14px; border-radius: 12px; box-shadow: var(--shadow); opacity: 0; transform: translateY(-8px); transition: opacity .28s, transform .28s; z-index: 1400; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      body { padding: 14px 12px 180px; }
+      header { flex-direction: column; text-align: center; }
+      .brand-logo { margin-bottom: 6px; }
     }
   </style>
 </head>
 <body>
   <div class="page">
+  <div class="shell">
     <header>
-      <!-- Add your logo image file as "logo.png" in the same folder as this HTML file -->
-      <img class="logo" src="logo.png" alt="Troia Döner Logo" onerror="this.style.display='none'">
-      <div class="brand">
-        <h1>TROIA <span style="color:#f5c451">DÖNER</span></h1>
-        <p>Tarihten gelen lezzet · Çanakkale</p>
+      <h1>TROIA <span>DÖNER</span></h1>
+      <p>Tarihten gelen lezzet · Çanakkale</p>
+      <div class="brand-logo" id="brandLogo" aria-hidden="true"></div>
+      <div class="brand-title">
+        <h1 id="brandTitle">TROIA DÖNER</h1>
+        <p id="brandSlogan">Tarihten gelen lezzet – Çanakkale</p>
       </div>
     </header>
 
-    <section class="hero" aria-hidden="false">
+    <section class="hero">
       <div class="hero-text">
         <h2>Sıcak, taze, sosu tam kararında döner.</h2>
-        <p>Aynı anda sokak lezzeti, hem sessiz lüks. Troia Döner şimdi çevrim içi siparişle cebinde.</p>
-        <div class="tags">
-          <div class="tag">🔥 Günlük taze ürün</div>
-          <div class="tag">🚚 Paket servis</div>
-          <div class="tag">📍 Çanakkale merkez</div>
+        <p>Aynı anda hem sokak lezzeti, hem sessiz lüks. Troia Döner şimdi çevrim içi siparişle cebinde.</p>
+
+        <div class="hero-tags">
+      <div>
+        <h2>Premium döneri evinize taşıyoruz.</h2>
+        <p>Koyu, modern ve şık tasarımda Troia Döner menüsünü keşfedin. Favorilerinizi sepete ekleyin, adres ve telefonunuzla birlikte WhatsApp'tan tek dokunuşla gönderin.</p>
+        <div class="tag-row">
+          <span class="tag">🔥 Günlük taze ürün</span>
+          <span class="tag">🚚 Paket servis</span>
+          <span class="tag">📍 Çanakkale merkez</span>
+          <span class="tag">🚚 Hızlı teslimat / gel-al</span>
+          <span class="tag">⭐ Premium sunum</span>
         </div>
-        <a class="btn-main" id="quickWhatsApp" href="https://wa.me/905415788507" target="_blank" rel="noopener">WhatsApp'tan Sipariş Ver</a>
+
+        <!-- WHATSAPP NUMARANI BURAYA GİRECEKSİN -->
+        <a class="btn-main" href="https://wa.me/905000000000?text=Merhaba%2C%20Troia%20D%C3%B6ner%20i%C3%A7in%20sipari%C5%9F%20vermek%20istiyorum." target="_blank">
+          WhatsApp’tan Sipariş Ver
+          <small>Sepetini yaz, hemen hazırlayalım.</small>
+        </a>
+        <a id="heroCta" class="cta" href="#menu">Menüye Göz Atın <small>Özel sos ve seçeneklerle kişiselleştirin.</small></a>
       </div>
-      <div style="flex:0 0 260px">
-        <div style="background:rgba(0,0,0,0.28);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)">
-          <h3 style="margin:0 0 8px">Bugünün önerisi</h3>
-          <p id="hero-suggestion" style="margin:0;color:#ddd">Pilavüstü tavuk döner + ayran · sosu bol, soğan isteğe bağlı.</p>
+
+      <div class="hero-img">
+        <div class="hero-img-inner">
+          <h3>Bugünün önerisi</h3>
+          <p>Pilavüstü tavuk döner + ayran · sosu bol, soğan isteğe bağlı.</p>
+      <div class="quick-panels">
+        <div class="info-card">
+          <h3>Konum</h3>
+          <p>Troia Döner · Çanakkale Merkez<br><a href="https://maps.google.com/?q=Troia%20D%C3%B6ner%20%C3%87anakkale" target="_blank" rel="noopener">Haritayı aç</a></p>
+        </div>
+        <div class="info-card">
+          <h3>Telefon</h3>
+          <p><a id="heroPhone" href="tel:+905415788507">0 (541) 578 85 07</a><br>Arayın veya WhatsApp'tan yazın.</p>
+        </div>
+        <div class="info-card">
+          <h3>Çalışma Saatleri</h3>
+          <p>Her gün 11:00 – 23:00<br>Yoğun saat: 12:00 – 14:00, 18:00 – 21:00</p>
         </div>
       </div>
     </section>
 
     <section class="menu">
       <h2>Menü</h2>
-      <div class="menu-grid" id="menuGrid" aria-live="polite"></div>
+      <div class="menu-grid">
+        <div class="item">
+          <div class="item-header">
+            <span class="item-name">Pilavüstü Tavuk Döner</span>
+            <span class="item-price">₺ —</span>
+          </div>
+          <p class="item-desc">Tane tane pirinç pilav üzerinde ince dilim tavuk döner, domates ve mor soğan eşliğinde.</p>
+          <p class="item-note">Not: Soğan / sos tercihini sipariş mesajında yazabilirsin.</p>
+    <section id="menu" class="section">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;">
+        <div>
+          <h2>Menü</h2>
+          <p class="muted">Kategori kartları orantılı dizildi; fiyat, açıklama ve seçenekler kartlarda.</p>
+        </div>
+        <div class="chip" id="menuSummary">0 ürün listeleniyor</div>
+      </div>
+      <div id="menuContainer" class="menu-grid"></div>
     </section>
 
-    <section style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
-      <div style="background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)">
-        <h3 style="color:#f5c451;margin:0 0 6px">Çalışma Saatleri</h3>
-        <p style="color:var(--muted);margin:0">Her gün: 11.00 – 23.00<br>Yoğun: 12.00–14.00 / 18.00–21.00</p>
-      </div>
-      <div style="background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)">
-        <h3 style="color:#f5c451;margin:0 0 6px">Konum</h3>
-        <p style="color:var(--muted);margin:0">Troia Döner · Çanakkale Merkez<br><a href="https://maps.google.com/?q=Troia%20D%C3%B6ner%20%C3%87anakkale" target="_blank" rel="noopener">Haritayı aç</a></p>
-      </div>
-      <div style="background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)">
-        <h3 style="color:#f5c451;margin:0 0 6px">Telefon</h3>
-        <p style="color:var(--muted);margin:0"><a href="tel:+905415788507">0 (541) 578 85 07</a></p>
+        <div class="item">
+          <div class="item-header">
+            <span class="item-name">Pilavüstü Et Döner</span>
+            <span class="item-price">₺ —</span>
+          </div>
+          <p class="item-desc">Dana et döner, pilav, köz biber ve domates ile premium sunum.</p>
+          <p class="item-note">Not: Gramaj ve porsiyon bilgisi eklenecek.</p>
+        </div>
+    <section class="section" id="drinks">
+      <h2>İçecekler</h2>
+      <p class="muted">Adedi ayarlayın, sepete ekleyin; toplam tutara yansır.</p>
+      <div id="drinkContainer" class="drink-grid"></div>
+    </section>
+
+        <div class="item">
+          <div class="item-header">
+            <span class="item-name">Lavaş Dürüm</span>
+            <span class="item-price">₺ —</span>
+          </div>
+          <p class="item-desc">Özel lavaşta tavuk veya et döner, isteğe göre turşu biber ve sos.</p>
+          <p class="item-note">Not: İçindekileri siparişte yazabilirsin.</p>
+    <section class="section">
+      <h2>Adım adım sipariş</h2>
+      <div class="menu-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+        <div class="info-card">
+          <h3>1. Menüden seç</h3>
+          <p>Ürün kartındaki seçenekleri işaretle, adet belirle.</p>
+        </div>
+
+        <div class="item">
+          <div class="item-header">
+            <span class="item-name">İçecekler</span>
+            <span class="item-price">₺ —</span>
+          </div>
+          <p class="item-desc">Cam şişe ayran, kola, gazlı içecekler.</p>
+          <p class="item-note">Not: Miktar ve marka tercihini mesajda belirt.</p>
+        <div class="info-card">
+          <h3>2. Sepeti aç</h3>
+          <p>Sağ alttan sepeti aç, toplamı gör. Sepete git dediğinde tutar görünür.</p>
+        </div>
+        <div class="info-card">
+          <h3>3. WhatsApp'a gönder</h3>
+          <p>Ad-soyad, telefon ve adresi doldur; ürün listesiyle mesaj hazırlanır.</p>
+        </div>
       </div>
     </section>
+
+    <section class="info">
+      <div class="info-box">
+        <h3>Çalışma Saatleri</h3>
+        <p>Her gün: 11.00 – 23.00<br/>Yoğun saat: 12.00 – 14.00 / 18.00 – 21.00</p>
+    <footer class="muted" style="text-align:center; padding: 12px 0 24px;">Troia Döner · Premium tek sayfa deneyimi</footer>
   </div>
 
-  <!-- cart toggle & panel -->
-  <div class="cart-toggle"><button id="cartToggle">Sepetim (<span id="cartCount">0</span>)</button></div>
+  <div class="toast" id="toast" aria-live="polite">Güncellendi</div>
+
+  <!-- Cart dock -->
+  <div class="dock">
+    <button class="dock-btn" id="cartToggle">
+      <div class="dock-label">
+        <span>Sepete Git</span>
+        <span class="dock-sub">Toplam: <strong id="cartMiniTotal">₺ 0,00</strong></span>
+      </div>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <a class="dock-btn" id="whatsappDock" href="#" target="_blank" rel="noopener">
+      <span>WhatsApp</span>
+      <strong>Gönder</strong>
+    </a>
+  </div>
 
   <div class="cart-panel" id="cartPanel" aria-hidden="true">
-    <h3>Sepetiniz</h3>
-    <div id="cartList" aria-live="polite"></div>
-
-    <div class="cart-total">
-      <div>Toplam</div>
-      <div id="cartTotal">₺ 0,00</div>
+    <header>
+      <h3>Sepet Özeti <span id="cartHeaderTotal" style="color:var(--accent);font-size:1rem;"></span></h3>
+      <button class="btn" id="closeCart">Kapat</button>
+    </header>
+    <div id="cartItems"></div>
+    <div class="totals">
+      <div><span>Ara toplam</span><strong id="subTotal">₺ 0,00</strong></div>
+      <div><span>Teslimat ücreti</span><strong>₺ 0,00</strong></div>
+      <div style="font-size:1.1rem;color:var(--accent);"><span>Genel toplam</span><strong id="grandTotal">₺ 0,00</strong></div>
     </div>
-
-    <div style="margin-top:10px">
-      <strong>Teslimat bilgileri</strong>
-      <div class="checkout-form">
-        <input id="custName" placeholder="İsim (ör. Ahmet)" />
-        <input id="custPhone" placeholder="Telefon (örn. +905xxxxxxxxx)" />
-        <textarea id="custAddress" rows="2" placeholder="Adres (detaylı)"></textarea>
-      </div>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+      <button class="btn" id="clearCart">Sepeti Temizle</button>
+      <button class="btn gold" id="checkoutBtn">Siparişi Tamamla</button>
     </div>
-
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <button id="clearCartBtn" class="btn-action">Temizle</button>
-      <button id="saveInfoBtn" class="btn-action">Bilgileri Kaydet</button>
-      <a id="checkoutBtn" class="btn-primary" href="#" target="_blank" rel="noopener">WhatsApp ile Gönder</a>
-    </div>
-
-    <div style="margin-top:8px;color:var(--muted);font-size:.85rem">WhatsApp'ı kullanarak sipariş gönderirken isim/telefon/adres otomatik eklenir. Bilgiler cihazınızda saklanır.</div>
+    <p class="muted" style="margin-top:8px;">Adres ve telefon bilgisi doldurulduktan sonra WhatsApp mesajı hazırlanır.</p>
   </div>
 
-  <!-- modal for add/option confirmation -->
-  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-hidden="true">
-    <div class="modal" role="document" id="itemModal">
-      <h3 id="modalTitle">Ürün</h3>
-      <div class="modal-body" id="modalBody"></div>
-      <div class="modal-actions">
-        <button id="modalCancel" class="btn-action">İptal</button>
-        <button id="modalConfirm" class="btn-primary">Sepete Ekle</button>
+  <!-- Checkout modal -->
+  <div class="modal-backdrop" id="checkoutModal" aria-hidden="true">
+    <div class="modal">
+      <h3>Sipariş Bilgileri</h3>
+      <div class="field">
+        <label>Ad Soyad *</label>
+        <input id="custName" placeholder="Adınızı soyadınızı girin" />
       </div>
+      <div class="info-box">
+        <h3>Konum</h3>
+        <p>Troia Döner · Çanakkale Merkez<br/>Google Haritalar linki buraya gelecek.</p>
+      <div class="field">
+        <label>Telefon *</label>
+        <input id="custPhone" placeholder="05xx xxx xx xx" />
+      </div>
+      <div class="info-box">
+        <h3>Telefon</h3>
+        <p>0 (5xx) xxx xx xx<br/>Arayarak da sipariş verebilirsiniz.</p>
+      <div class="field">
+        <label>Adres *</label>
+        <textarea id="custAddress" rows="3" placeholder="Mahalle, sokak, daire bilgisi"></textarea>
+      </div>
+    </section>
+      <div class="field">
+        <label>Teslimat tipi *</label>
+        <select id="deliveryType">
+          <option value="Adrese Teslim">Adrese Teslim</option>
+          <option value="Gel-Al">Gel-Al</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Not (isteğe bağlı)</label>
+        <textarea id="custNote" rows="2" placeholder="Soğansız, acısız, kapıya asın..."></textarea>
+      </div>
+      <div class="field">
+        <label>WhatsApp'a gidecek önizleme</label>
+        <div class="message-preview" id="waPreview">Sepet boş.</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn" id="cancelCheckout">Vazgeç</button>
+        <button class="btn gold" id="sendWhatsapp">WhatsApp'a Gönder</button>
+      </div>
+      <p class="muted" style="margin-top:8px;">Mesaj, ürün listesi, ödeme tutarı, adres ve telefonunuzla birlikte gönderilir.</p>
     </div>
   </div>
 
-  <div id="toast" class="toast" aria-hidden="true">Sepete eklendi</div>
+    <footer>
+      Troia Döner · Tarihten gelen lezzet
+    </footer>
+  <!-- Admin -->
+  <div class="admin-toggle"><button id="adminToggle">Admin</button></div>
+    <div class="admin-panel" id="adminPanel" aria-hidden="true">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+      <h3>Admin Ayarları</h3>
+      <button class="btn" id="closeAdmin">Kapat</button>
+    </div>
+    <h4>Marka & İletişim</h4>
+    <div class="admin-grid">
+      <div class="field"><label>Logo URL</label><input id="adminLogo" placeholder="https://..." /></div>
+      <div class="field"><label>Başlık</label><input id="adminTitle" /></div>
+      <div class="field"><label>Slogan</label><input id="adminSlogan" /></div>
+      <div class="field"><label>WhatsApp Numara (905XXXXXXXXX)</label><input id="adminWa" /></div>
+    </div>
+    <h4>Menü Yönetimi</h4>
+    <p class="muted">İsim, içerik, fiyat ve kategori düzenlenebilir; yeni ürün ekleyin. Değişiklikler localStorage'da saklanır.</p>
+    <div id="menuEditor" class="admin-grid"></div>
+    <div class="admin-row">
+      <strong>Yeni ürün ekle</strong>
+      <div class="admin-grid">
+        <input id="newCat" placeholder="Kategori (Dönerler)" />
+        <input id="newName" placeholder="Ürün adı" />
+        <input id="newPrice" placeholder="Fiyat (ör: 230)" />
+        <input id="newImg" placeholder="Görsel URL (isteğe bağlı)" />
+      </div>
+      <textarea id="newDesc" placeholder="Ana açıklama"></textarea>
+      <textarea id="newExtra" placeholder="Ek açıklama (isteğe bağlı)"></textarea>
+      <textarea id="newOpts" placeholder="Seçenekler (virgülle ayır, ör: Soğansız|0,Acı sos|5)"></textarea>
+      <button class="btn gold" id="addNewItem">Ekle</button>
+    </div>
+    <h4>İçecek Yönetimi</h4>
+    <p class="muted">İçecek isim, fiyat ve görsellerini düzenleyin; yeni içecek ekleyin.</p>
+    <div id="drinkEditor" class="admin-grid"></div>
+    <div class="admin-row">
+      <strong>Yeni içecek ekle</strong>
+      <div class="admin-grid">
+        <input id="newDrinkName" placeholder="İçecek adı" />
+        <input id="newDrinkPrice" placeholder="Fiyat (ör: 35)" />
+        <input id="newDrinkImg" placeholder="Görsel URL (isteğe bağlı)" />
+      </div>
+      <button class="btn gold" id="addNewDrink">Ekle</button>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+      <button class="btn" id="saveConfig">Kaydet</button>
+      <button class="btn" id="resetConfig">Varsayılan</button>
+    </div>
+  </div>
 
   <script>
-  (function(){
-    // keys
-    const STORAGE_KEY = 'troia_menu_v2';
+    // === Config & state ===
+    const STORAGE_KEY = 'troia_config_v2';
     const CART_KEY = 'troia_cart_v2';
-    const CUST_KEY = 'troia_customer_v2';
-
-    // default menu — you can edit via admin or inline
-    const defaultMenu = [
-      { id:'m1', name:'Pilavüstü Tavuk Döner', priceDisplay:'₺ 45', priceNum:45, desc:'Tane tane pirinç pilav üzerinde ince dilim tavuk döner, domates ve mor soğan.' },
-      { id:'m2', name:'Pilavüstü Et Döner', priceDisplay:'₺ 58', priceNum:58, desc:'Özel marinasyonlu et döner, tereyağlı pilav ve taze salata.' },
-      { id:'m3', name:'Lavaş Dürüm (Tavuk)', priceDisplay:'₺ 38', priceNum:38, desc:'Özel lavaşta tavuk döner, salata, turşu.' , options:[
-          { groupName:'Yan Seçenekler', type:'multi', choices:[ {id:'p1', name:'Patates', price:18}, {id:'s1', name:'Mevsim Salata', price:10} ] }
-        ]
-      },
-      // drinks as standalone items
-      { id:'d1', name:'Ayran 330ml', priceDisplay:'₺ 8', priceNum:8, desc:'Serinletici ayran.', category:'drink' },
-      { id:'d2', name:'Kola 330ml', priceDisplay:'₺ 12', priceNum:12, desc:'Soğuk kola.', category:'drink' },
-      { id:'d3', name:'Şalgam 330ml', priceDisplay:'₺ 10', priceNum:10, desc:'Ev yapımı şalgam.', category:'drink' },
-      { id:'m10', name:'Menü: Pilavüstü Tavuk + Ayran', priceDisplay:'₺ 52', priceNum:52, desc:'Pilavüstü tavuk döner ve 330ml ayran (menü fiyatı).', options:[
-          { groupName:'Menüye ekle', type:'multi', choices:[ {id:'mp1', name:'Patates +₺18', price:18} ] },
-          { groupName:'İçecek seç', type:'single', choices:[ {id:'md1', name:'Ayran (dahil)', price:0}, {id:'md2', name:'Kola (+₺4)', price:4}, {id:'md3', name:'Şalgam (+₺2)', price:2} ] }
-        ]
-      }
-    ];
-
-    // load/save
-    function loadMenu(){ try{ const raw = localStorage.getItem(STORAGE_KEY); if(!raw) return defaultMenu.slice(); const parsed = JSON.parse(raw); return Array.isArray(parsed)?parsed:defaultMenu.slice(); }catch(e){ console.error(e); return defaultMenu.slice(); } }
-    function saveMenu(menu){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(menu)); }catch(e){} }
-    function loadCart(){ try{ const raw = localStorage.getItem(CART_KEY); if(!raw) return []; const p = JSON.parse(raw); return Array.isArray(p)?p:[] }catch(e){ return []; } }
-    function saveCart(){ try{ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }catch(e){} }
-    function loadCustomer(){ try{ const raw = localStorage.getItem(CUST_KEY); if(!raw) return {}; return JSON.parse(raw)||{} }catch(e){ return {}; } }
-    function saveCustomer(c){ try{ localStorage.setItem(CUST_KEY, JSON.stringify(c)); }catch(e){} }
-
-    // state
-    let menuData = loadMenu();
-    let cart = loadCart();
-    let customer = loadCustomer();
-
-    // elements
-    const menuGrid = document.getElementById('menuGrid');
-    const cartCountEl = document.getElementById('cartCount');
-    const cartPanel = document.getElementById('cartPanel');
-    const cartListEl = document.getElementById('cartList');
-    const cartTotalEl = document.getElementById('cartTotal');
-    const custName = document.getElementById('custName');
-    const custPhone = document.getElementById('custPhone');
-    const custAddress = document.getElementById('custAddress');
-
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBody = document.getElementById('modalBody');
-    const modalConfirm = document.getElementById('modalConfirm');
-    const modalCancel = document.getElementById('modalCancel');
-
-    // utility
-    function formatCurrency(n){ return '₺ ' + Number(n).toFixed(2).replace('.',','); }
-    function parsePriceFromString(str){ const m = String(str).replace(',','.').match(/(\d+(\.\d+)?)/); return m?parseFloat(m[0]):0; }
-    function showToast(msg, ms=1200){ const t=document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); t.setAttribute('aria-hidden','false'); clearTimeout(t._hide); t._hide = setTimeout(()=>{ t.classList.remove('show'); t.setAttribute('aria-hidden','true') }, ms); }
-
-    // render menu
-    function renderMenu(){
-      if(!menuGrid) return;
-      menuGrid.innerHTML = '';
-      menuData.forEach(item => {
-        const el = document.createElement('div');
-        el.className = 'item';
-        el.dataset.menuId = item.id;
-        el.innerHTML = `
-          <div class="row">
-            <div class="item-name">${escapeHtml(item.name)}</div>
-            <div class="item-price">${escapeHtml(item.priceDisplay || '')}</div>
-          </div>
-          <div class="item-desc">${escapeHtml(item.desc || '')}</div>
-          <div class="item-note">${item.note?escapeHtml(item.note):''}</div>
-          <div class="item-actions">
-            <input class="qty-input" type="number" min="1" value="1" aria-label="Adet" />
-            <button class="btn-action btn-add">Sepete Ekle</button>
-            ${ item.options ? '<button class="btn-action btn-toggle-opts">Seçenekler</button>' : '' }
-          </div>
-          <div class="item-opts" aria-hidden="true"></div>
-        `;
-        menuGrid.appendChild(el);
-
-        // options area populate
-        if(item.options && item.options.length){
-          const opts = el.querySelector('.item-opts');
-          opts.style.display = 'none';
-          item.options.forEach((g,gidx) => {
-            const group = document.createElement('div');
-            group.className = 'option-group';
-            group.innerHTML = `<div style="font-weight:700;color:#f5c451;margin-bottom:6px">${escapeHtml(g.groupName)}</div><div class="options-grid"></div>`;
-            const grid = group.querySelector('.options-grid');
-            g.choices.forEach(ch => {
-              const choice = document.createElement('label');
-              choice.className = 'option-choice';
-              choice.innerHTML = `<input type="${g.type==='single'?'radio':'checkbox'}" name="opt-${item.id}-${gidx}" value="${escapeHtml(ch.id)}" data-name="${escapeHtml(ch.name)}" data-price="${Number(ch.price||0)}" /> <div style="margin-left:6px"><div class="option-label">${escapeHtml(ch.name)}${ch.price?(' — '+formatCurrency(ch.price)):''}</div></div>`;
-              grid.appendChild(choice);
-            });
-            opts.appendChild(group);
-          });
-        }
-      });
-    }
-
-    // event delegation for menu interactions
-    menuGrid.addEventListener('click', (e) => {
-      const btn = e.target.closest('button');
-      if(!btn) return;
-      const itemEl = btn.closest('.item');
-      if(!itemEl) return;
-      const id = itemEl.dataset.menuId;
-      const item = menuData.find(x => x.id === id);
-      if(!item) return;
-
-      if(btn.classList.contains('btn-toggle-opts')){
-        const opts = itemEl.querySelector('.item-opts');
-        const isHidden = opts.style.display === 'none' || opts.style.display === '';
-        opts.style.display = isHidden ? 'block' : 'none';
-        opts.setAttribute('aria-hidden', isHidden ? 'false' : 'true');
-        return;
-      }
-
-      if(btn.classList.contains('btn-add')){
-        // open modal to confirm and choose options (also used on drinks)
-        openAddModal(item, itemEl);
-      }
-    });
-
-    // open modal (shows quantity, options if any; confirm adds to cart)
-    function openAddModal(item, itemEl){
-      modalTitle.textContent = item.name + (item.priceDisplay ? (' — '+item.priceDisplay) : '');
-      modalBody.innerHTML = '';
-      const wrapper = document.createElement('div');
-
-      // quantity
-      const qtyRow = document.createElement('div');
-      qtyRow.style.display = 'flex'; qtyRow.style.gap = '8px'; qtyRow.style.alignItems = 'center'; qtyRow.style.marginBottom = '8px';
-      qtyRow.innerHTML = `<label style="font-weight:700">Adet</label><input id="modalQty" type="number" min="1" value="${(itemEl && itemEl.querySelector('.qty-input'))?escapeHtml(itemEl.querySelector('.qty-input').value || 1):1}" style="padding:6px;border-radius:6px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.04);color:#fff;width:90px" />`;
-      wrapper.appendChild(qtyRow);
-
-      // options (if any)
-      if(item.options && item.options.length){
-        item.options.forEach((g,gidx) => {
-          const groupWrap = document.createElement('div');
-          groupWrap.style.marginBottom = '10px';
-          const title = document.createElement('div'); title.style.fontWeight = '700'; title.style.color = '#f5c451'; title.style.marginBottom = '6px'; title.textContent = g.groupName;
-          groupWrap.appendChild(title);
-          const grid = document.createElement('div'); grid.className = 'options-grid';
-          grid.style.marginBottom = '6px';
-          g.choices.forEach(choice => {
-            const label = document.createElement('label');
-            label.className = 'option-choice';
-            label.style.cursor = 'pointer';
-            label.innerHTML = `<input type="${g.type==='single'?'radio':'checkbox'}" name="modal-opt-${item.id}-${gidx}" value="${escapeHtml(choice.id)}" data-name="${escapeHtml(choice.name)}" data-price="${Number(choice.price||0)}" /> <div style="margin-left:6px"><div style="font-weight:700">${escapeHtml(choice.name)}</div><div style="color:var(--muted);font-size:.9rem">${choice.price?formatCurrency(choice.price):''}</div></div>`;
-            grid.appendChild(label);
-          });
-          groupWrap.appendChild(grid);
-          wrapper.appendChild(groupWrap);
-        });
-      } else {
-        // If this is a drink item, show price clearly and allow extra notes
-        if(item.category === 'drink' || String(item.id).startsWith('d')){
-          const p = document.createElement('div');
-          p.style.marginBottom = '8px';
-          p.innerHTML = `<div style="font-weight:700">Fiyat</div><div style="color:var(--muted)">${item.priceDisplay || ''}</div>`;
-          wrapper.appendChild(p);
-        }
-      }
-
-      // optional notes
-      const notes = document.createElement('textarea');
-      notes.id = 'modalNotes';
-      notes.placeholder = 'Sipariş notu (örn. sos, soğan tercihi)';
-      notes.style.width = '100%';
-      notes.style.padding = '8px';
-      notes.style.borderRadius = '8px';
-      notes.style.background = 'rgba(0,0,0,0.4)';
-      notes.style.border = '1px solid rgba(255,255,255,0.04)';
-      notes.style.color = '#fff';
-      notes.style.minHeight = '64px';
-      wrapper.appendChild(notes);
-
-      modalBody.appendChild(wrapper);
-
-      // show modal
-      modalBackdrop.style.display = 'grid';
-      modalBackdrop.setAttribute('aria-hidden','false');
-
-      // on confirm, collect data and add
-      function onConfirm(){
-        const qty = Math.max(1, Number(document.getElementById('modalQty').value) || 1);
-        const selectedMods = [];
-        modalBody.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(inp => {
-          if((inp.type==='checkbox' && inp.checked) || (inp.type==='radio' && inp.checked)){
-            selectedMods.push({ id: inp.value, name: inp.dataset.name || inp.getAttribute('data-name') || '', price: Number(inp.dataset.price || inp.getAttribute('data-price') || 0) });
-          }
-        });
-        const note = document.getElementById('modalNotes').value.trim();
-        addToCart(item, qty, selectedMods, note);
-        closeModal();
-      }
-
-      modalConfirm.onclick = onConfirm;
-      modalCancel.onclick = closeModal;
-      modalBackdrop.onclick = function(e){
-        if(e.target === modalBackdrop) closeModal();
-      };
-    }
-
-    function closeModal(){
-      modalBackdrop.style.display = 'none';
-      modalBackdrop.setAttribute('aria-hidden','true');
-      modalConfirm.onclick = null;
-      modalCancel.onclick = null;
-      modalBackdrop.onclick = null;
-      modalBody.innerHTML = '';
-    }
-
-    // add to cart
-    function addToCart(item, qty, mods=[], note=''){
-      const base = Number(item.priceNum || parsePriceFromString(item.priceDisplay || '0')) || 0;
-      const cartItem = {
-        cartId: 'c_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),
-        id: item.id,
-        name: item.name,
-        basePrice: base,
-        qty: qty,
-        mods: mods || [],
-        note: note || ''
-      };
-      cart.push(cartItem);
-      saveCart();
-      renderCart();
-      showToast('Sepete eklendi');
-    }
-
-    // render cart
-    function renderCart(){
-      cartListEl.innerHTML = '';
-      let total = 0;
-      cart.forEach((ci, idx) => {
-        const modsTotal = (ci.mods || []).reduce((s,m) => s + Number(m.price || 0), 0);
-        const itemTotal = (ci.basePrice + modsTotal) * ci.qty;
-        total += itemTotal;
-        const row = document.createElement('div');
-        row.className = 'cart-item';
-        row.innerHTML = `
-          <div>
-            <div class="cart-item-name">${escapeHtml(ci.name)}</div>
-            <div style="color:var(--muted)">${ci.qty} x ${formatCurrency(ci.basePrice)}</div>
-            ${ci.mods && ci.mods.length ? '<div style="color:#ccc;margin-top:6px;font-size:.92rem">'+ci.mods.map(m => escapeHtml(m.name)).join(', ') +'</div>' : ''}
-            ${ci.note ? '<div style="color:var(--muted);font-size:.9rem;margin-top:6px">Not: '+escapeHtml(ci.note)+'</div>' : ''}
-          </div>
-          <div class="cart-controls">
-            <div style="font-weight:800;color:#f5c451">${formatCurrency(itemTotal)}</div>
-            <button data-action="minus" data-idx="'+idx+'">-</button>
-            <button data-action="plus" data-idx="'+idx+'">+</button>
-            <button data-action="remove" data-idx="'+idx+'">✕</button>
-          </div>
-        `.replaceAll('"data-idx"', '"data-idx"'); // keep attributes valid
-
-        // attach control events inline to avoid delegation issues
-        const controls = row.querySelectorAll('button');
-        controls.forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            const action = btn.getAttribute('data-action');
-            const index = Number(btn.getAttribute('data-idx'));
-            if(isNaN(index)) return;
-            if(action === 'remove'){ cart.splice(index,1); saveCart(); renderCart(); }
-            if(action === 'minus'){ cart[index].qty = Math.max(1, cart[index].qty - 1); saveCart(); renderCart(); }
-            if(action === 'plus'){ cart[index].qty = cart[index].qty + 1; saveCart(); renderCart(); }
-          });
-        });
-
-        cartListEl.appendChild(row);
-      });
-
-      cartCountEl.textContent = cart.length;
-      cartTotalEl.textContent = formatCurrency(total);
-
-      // update checkout link (but require saved customer info)
-      updateCheckoutHref();
-    }
-
-    // update the checkout href (but we will validate on click)
-    function buildOrderText(){
-      if(!cart || cart.length === 0) return '';
-      let lines = [];
-      cart.forEach((ci, i) => {
-        const modsText = ci.mods && ci.mods.length ? ' - Seçenekler: ' + ci.mods.map(m => m.name).join(', ') : '';
-        const noteText = ci.note ? (' - Not: '+ci.note) : '';
-        const itemTotal = (ci.basePrice + (ci.mods||[]).reduce((s,m)=>s+Number(m.price||0),0)) * ci.qty;
-        lines.push(`${i+1}. ${ci.name} x${ci.qty}${modsText}${noteText} = ${formatCurrency(itemTotal)}`);
-      });
-      const total = cart.reduce((s,ci)=> s + (ci.basePrice + (ci.mods||[]).reduce((ss,m)=>ss + Number(m.price||0),0)) * ci.qty, 0);
-      lines.push('');
-      lines.push('Toplam: ' + formatCurrency(total));
-      return lines.join('\n');
-    }
-
-    function updateCheckoutHref(){
-      // We won't open wa link directly here; checkout button will validate fields then build final link and open
-      // But keep a default
-      document.getElementById('checkoutBtn').href = 'https://wa.me/905415788507';
-    }
-
-    // cart toggle
-    document.getElementById('cartToggle').addEventListener('click', () => {
-      const isHidden = cartPanel.style.display === 'none' || cartPanel.style.display === '';
-      cartPanel.style.display = isHidden ? 'block' : 'none';
-      cartPanel.setAttribute('aria-hidden', isHidden ? 'false' : 'true');
-      // populate saved customer info
-      const c = loadCustomer() || {};
-      if(c.name) custName.value = c.name;
-      if(c.phone) custPhone.value = c.phone;
-      if(c.address) custAddress.value = c.address;
-      renderCart();
-    });
-
-    // clear cart
-    document.getElementById('clearCartBtn').addEventListener('click', () => {
-      if(confirm('Sepeti temizlemek istiyor musunuz?')){ cart = []; saveCart(); renderCart(); }
-    });
-
-    // save customer info
-    document.getElementById('saveInfoBtn').addEventListener('click', () => {
-      const c = { name: custName.value.trim(), phone: custPhone.value.trim(), address: custAddress.value.trim() };
-      if(!c.name || !c.phone || !c.address){ alert('Lütfen isim, telefon ve adres bilgilerini doldurun.'); return; }
-      customer = c;
-      saveCustomer(customer);
-      showToast('Bilgiler kaydedildi');
-    });
-
-    // checkout: validate and open WhatsApp with message including customer info and order lines + total
-    document.getElementById('checkoutBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      if(cart.length === 0){ alert('Sepetiniz boş. Önce ürün ekleyin.'); return; }
-      const c = {
-        name: custName.value.trim(),
-        phone: custPhone.value.trim(),
-        address: custAddress.value.trim()
-      };
-      if(!c.name || !c.phone || !c.address){
-        // focus first empty
-        if(!c.name){ custName.focus(); alert('Lütfen isim girin.'); }
-        else if(!c.phone){ custPhone.focus(); alert('Lütfen telefon girin.'); }
-        else if(!c.address){ custAddress.focus(); alert('Lütfen adres girin.'); }
-        return;
-      }
-      // Save customer for next time
-      customer = c;
-      saveCustomer(customer);
-
-      // build message
-      const orderText = buildOrderText();
-      const msgLines = [
-        `Merhaba, sipariş veriyorum.`,
-        '',
-        orderText,
-        '',
-        `İsim: ${customer.name}`,
-        `Telefon: ${customer.phone}`,
-        `Adres: ${customer.address}`,
-        '',
-        `Lütfen tahmini teslim süresini yazınız.`
-      ];
-      const message = encodeURIComponent(msgLines.join('\n'));
-      const wa = `https://wa.me/905415788507?text=${message}`;
-      // For desktop, wa.me will open WhatsApp Web if available; for mobile it opens WhatsApp app — works for iOS, Android and desktop.
-      window.open(wa, '_blank');
-    });
-
-    // utility escape
-    function escapeHtml(s){ if(!s && s !== 0) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-
-    // load customer into inputs on start
-    (function initCustomer(){
-      const c = loadCustomer() || {};
-      if(c.name) custName.value = c.name;
-      if(c.phone) custPhone.value = c.phone;
-      if(c.address) custAddress.value = c.address;
-    })();
-
-    // initial render
-    renderMenu();
-    renderCart();
-
-    // small helper: link "quickWhatsApp" should use cart when clicked — open cart panel and show message
-    document.getElementById('quickWhatsApp').addEventListener('click', (e) => {
-      e.preventDefault();
-      // open cart panel
-      cartPanel.style.display = 'block';
-      cartPanel.setAttribute('aria-hidden','false');
-      renderCart();
-      showToast('Sepeti kontrol edip "WhatsApp ile Gönder"e basın', 1400);
-    });
-
-    // ensure keyboard/backdrop closes modal with ESC
-    document.addEventListener('keydown', (e) => {
-      if(e.key === 'Escape'){
-        if(modalBackdrop.style.display === 'grid') closeModal();
-        else if(cartPanel.style.display === 'block'){ cartPanel.style.display = 'none'; cartPanel.setAttribute('aria-hidden','true'); }
-      }
-    });
-
-    // expose some helpers for debugging in console if needed
-    window.__troia = {
-      menuData, cart,
-      addToCart,
-      saveMenu: () => saveMenu(menuData),
-      clearCart: () => { cart = []; saveCart(); renderCart(); }
+    const defaultConfig = {
+      brandTitle: 'TROIA DÖNER',
+      brandSlogan: 'Tarihten gelen lezzet – Çanakkale',
+      logoUrl: '',
+      whatsappNumber: '905415788507',
+      menuItems: [
+        { id: 'm1', category: 'Dönerler', name: 'Pilavüstü Tavuk Döner', price: 250, descMain: 'Tane tane pilav üzerinde ince dilim tavuk döner, domates ve soğan.', descExtra: 'Sos ve soğan tercihi mesajda belirtilebilir.', image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=60', options: [{ name: 'Soğansız', price: 0 }, { name: 'Acı sos', price: 5 }, { name: 'Ek pilav', price: 25 }] },
+        { id: 'm2', category: 'Dönerler', name: 'Pilavüstü Et Döner', price: 320, descMain: 'Özel marinasyonlu et döner, tereyağlı pilav ve salata.', descExtra: 'Tereyağ miktarını not düşebilirsiniz.', image: 'https://images.unsplash.com/photo-1604908177097-5e4e7f19f5b0?auto=format&fit=crop&w=800&q=60', options: [{ name: 'Tereyağ ekle', price: 15 }, { name: 'Soğansız', price: 0 }] },
+        { id: 'm3', category: 'Dürümler', name: 'Lavaş Dürüm (Tavuk)', price: 190, descMain: 'Özel lavaşta tavuk döner, salata, turşu, sos.', descExtra: 'Acı/acıksız belirtilebilir.', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=60', options: [{ name: 'Acı sos', price: 5 }, { name: 'Soğansız', price: 0 }] },
+        { id: 'm4', category: 'Dürümler', name: 'Lavaş Dürüm (Et)', price: 240, descMain: 'Özel lavaşta et döner, yeşillik ve turşu.', descExtra: 'Ek cheddar veya kaşar eklenebilir.', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=60', options: [{ name: 'Kaşar ekle', price: 18 }] },
+        { id: 'm5', category: 'Tabaklar', name: 'Özel Karışık Tabak', price: 360, descMain: 'Et + tavuk karışık, pilav, patates ve salata.', descExtra: 'Sarımsaklı yoğurt isteğe bağlı.', image: 'https://images.unsplash.com/photo-1604908177097-5e4e7f19f5b0?auto=format&fit=crop&w=800&q=60', options: [{ name: 'Yoğurt', price: 10 }, { name: 'Acısız', price: 0 }] },
+        { id: 'm6', category: 'Ekstralar', name: 'Patates Kızartması', price: 70, descMain: 'Dışı çıtır, içi yumuşak patates kızartması.', descExtra: '', image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=800&q=60', options: [{ name: 'Ketçap', price: 0 }, { name: 'Mayonez', price: 0 }] }
+      ],
+      drinkItems: [
+        { id: 'd1', name: 'Kola 330ml', price: 50 },
+        { id: 'd2', name: 'Ayran 330ml', price: 35 },
+        { id: 'd3', name: 'Şalgam', price: 40 },
+        { id: 'd4', name: 'Soda', price: 30 }
+      ]
     };
 
-  })();
+    let config = loadConfig();
+    let cart = loadCart();
+
+    function loadConfig() {
+      try { const saved = localStorage.getItem(STORAGE_KEY); return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(defaultConfig)); } catch (e) { return JSON.parse(JSON.stringify(defaultConfig)); }
+    }
+    function saveConfig() { localStorage.setItem(STORAGE_KEY, JSON.stringify(config)); }
+    function loadCart() {
+      try { const saved = localStorage.getItem(CART_KEY); return saved ? JSON.parse(saved) : []; } catch (e) { return []; }
+    }
+    function persistCart() { localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
+
+    const fmt = (n) => '₺ ' + Number(n || 0).toFixed(2).replace('.', ',');
+
+    // === Rendering ===
+    function renderBrand() {
+      document.getElementById('brandTitle').textContent = config.brandTitle || 'TROIA DÖNER';
+      document.getElementById('brandSlogan').textContent = config.brandSlogan || 'Tarihten gelen lezzet – Çanakkale';
+      document.getElementById('heroPhone').textContent = formatPhone(config.whatsappNumber || '905415788507');
+      document.getElementById('heroPhone').href = 'tel:+' + (config.whatsappNumber || '905415788507');
+      const logo = document.getElementById('brandLogo');
+      logo.innerHTML = config.logoUrl ? `<img src="${config.logoUrl}" alt="logo">` : '<span style="color: var(--accent); font-weight: 900;">TD</span>';
+      document.getElementById('adminLogo').value = config.logoUrl || '';
+      document.getElementById('adminTitle').value = config.brandTitle;
+      document.getElementById('adminSlogan').value = config.brandSlogan;
+      document.getElementById('adminWa').value = config.whatsappNumber;
+    }
+
+    function renderMenu() {
+      const container = document.getElementById('menuContainer');
+      container.innerHTML = '';
+      const categories = [...new Set(config.menuItems.map(i => i.category))];
+      let totalCount = 0;
+      categories.forEach(cat => {
+        const wrap = document.createElement('div');
+        wrap.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 6px;">
+          <h3 style="color: var(--accent);">${cat}</h3>
+          <span class="chip">${config.menuItems.filter(i=>i.category===cat).length} ürün</span>
+        </div>`;
+        const grid = document.createElement('div');
+        grid.className = 'menu-grid';
+        config.menuItems.filter(i => i.category === cat).forEach(item => {
+          totalCount++;
+          const card = document.createElement('div');
+          card.className = 'menu-card';
+          const optionsHtml = (item.options || []).map(opt => `<label class="chip"><input type="checkbox" data-opt="${opt.name}" data-price="${opt.price}" style="accent-color: var(--accent); margin-right:6px;">${opt.name}${opt.price ? ' +' + fmt(opt.price) : ''}</label>`).join('');
+          card.innerHTML = `
+            <img class="menu-img" src="${item.image || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=60'}" alt="${item.name}">
+            <div class="menu-body">
+              <div class="menu-head"><div class="menu-name">${item.name}</div><div class="menu-price">${fmt(item.price)}</div></div>
+              <div class="menu-desc">${item.descMain || ''}</div>
+              ${item.descExtra ? `<div class="menu-extra">${item.descExtra}</div>` : ''}
+              ${optionsHtml ? `<div class="option-row" aria-label="Seçenekler">${optionsHtml}</div>` : ''}
+              <div class="card-actions">
+                <div class="qty"><button class="qty-minus">-</button><span class="qty-val">1</span><button class="qty-plus">+</button></div>
+                <button class="btn gold add-to-cart" data-id="${item.id}" data-type="food">Sepete Ekle</button>
+              </div>
+            </div>`;
+          grid.appendChild(card);
+        });
+        wrap.appendChild(grid);
+        container.appendChild(wrap);
+      });
+      document.getElementById('menuSummary').textContent = `${totalCount} ürün listeleniyor`;
+    }
+
+    function renderDrinks() {
+      const container = document.getElementById('drinkContainer');
+      container.innerHTML = '';
+      config.drinkItems.forEach(drink => {
+        const card = document.createElement('div');
+        card.className = 'drink-card';
+        card.innerHTML = `
+          <div>
+            <div style="font-weight:800;">${drink.name}</div>
+            <div class="muted">${fmt(drink.price)}</div>
+          </div>
+          <div class="card-actions" style="margin:0;">
+            <div class="qty" data-drink="${drink.id}"><button class="qty-minus">-</button><span class="qty-val">1</span><button class="qty-plus">+</button></div>
+            <button class="btn gold add-to-cart" data-id="${drink.id}" data-type="drink">Ekle</button>
+          </div>`;
+        container.appendChild(card);
+      });
+    }
+
+    // === Cart ===
+    function addToCart(id, type, qty, opts) {
+      const list = type === 'food' ? config.menuItems : config.drinkItems;
+      const item = list.find(i => i.id === id);
+      if (!item) return;
+      const price = Number(item.price) || 0;
+      const desc = [item.descMain, item.descExtra].filter(Boolean).join(' — ');
+      const entry = { id, type, name: item.name, price, qty, desc, options: opts || [] };
+      cart.push(entry);
+      persistCart();
+      renderCart();
+      toast('Sepete eklendi');
+    }
+
+    function renderCart() {
+      const box = document.getElementById('cartItems');
+      box.innerHTML = '';
+      let subtotal = 0;
+      cart.forEach((line, idx) => {
+        const optsTotal = (line.options || []).reduce((s, o) => s + (Number(o.price) || 0), 0);
+        const lineTotal = (line.price + optsTotal) * line.qty;
+        subtotal += lineTotal;
+        const row = document.createElement('div');
+        row.className = 'cart-line';
+        row.innerHTML = `
+          <div>
+            <h4>${line.name}</h4>
+            ${line.desc ? `<div class="muted">${line.desc}</div>` : ''}
+            ${line.options && line.options.length ? `<div class="muted">${line.options.map(o => o.name + (o.price ? ' +' + fmt(o.price) : '')).join(', ')}</div>` : ''}
+            <div class="muted">${line.qty} x ${fmt(line.price)}</div>
+          </div>
+          <div class="cart-ctrl">
+            <span style="color:var(--accent);font-weight:800;">${fmt(lineTotal)}</span>
+            <button data-act="minus" data-idx="${idx}">-</button>
+            <button data-act="plus" data-idx="${idx}">+</button>
+            <button data-act="remove" data-idx="${idx}">✕</button>
+          </div>`;
+        box.appendChild(row);
+      });
+      document.getElementById('subTotal').textContent = fmt(subtotal);
+      document.getElementById('grandTotal').textContent = fmt(subtotal);
+      document.getElementById('cartCount').textContent = cart.length;
+      document.getElementById('cartMiniTotal').textContent = fmt(subtotal);
+      document.getElementById('cartHeaderTotal').textContent = cart.length ? `• ${fmt(subtotal)}` : '';
+      updateWhatsappLink();
+      updatePreview();
+    }
+
+    document.getElementById('cartItems').addEventListener('click', (e) => {
+      const btn = e.target.closest('button'); if (!btn) return;
+      const idx = Number(btn.dataset.idx);
+      const act = btn.dataset.act;
+      if (isNaN(idx) || !cart[idx]) return;
+      if (act === 'plus') cart[idx].qty += 1;
+      if (act === 'minus') cart[idx].qty = Math.max(1, cart[idx].qty - 1);
+      if (act === 'remove') cart.splice(idx, 1);
+      persistCart(); renderCart();
+    });
+
+    document.getElementById('clearCart').addEventListener('click', () => {
+      if (confirm('Sepeti temizlemek ister misiniz?')) { cart = []; persistCart(); renderCart(); }
+    });
+
+    // Toggle cart panel
+    const cartToggle = document.getElementById('cartToggle');
+    const cartPanel = document.getElementById('cartPanel');
+    cartToggle.addEventListener('click', () => {
+      const visible = cartPanel.style.display === 'block';
+      cartPanel.style.display = visible ? 'none' : 'block';
+      cartPanel.setAttribute('aria-hidden', visible);
+      if (!visible) renderCart();
+    });
+    document.getElementById('closeCart').addEventListener('click', () => { cartPanel.style.display = 'none'; cartPanel.setAttribute('aria-hidden', 'true'); });
+
+    // Add to cart handlers
+    document.body.addEventListener('click', (e) => {
+      if (e.target.classList.contains('qty-plus')) {
+        const qtyBox = e.target.closest('.qty');
+        if (qtyBox) { const span = qtyBox.querySelector('.qty-val'); span.textContent = Number(span.textContent) + 1; }
+      }
+      if (e.target.classList.contains('qty-minus')) {
+        const qtyBox = e.target.closest('.qty');
+        if (qtyBox) { const span = qtyBox.querySelector('.qty-val'); span.textContent = Math.max(1, Number(span.textContent) - 1); }
+      }
+      if (e.target.classList.contains('add-to-cart')) {
+        const card = e.target.closest('.menu-card, .drink-card');
+        const qtyEl = card.querySelector('.qty-val');
+        const qty = Number(qtyEl?.textContent) || 1;
+        const id = e.target.dataset.id;
+        const type = e.target.dataset.type;
+        const opts = [];
+        card.querySelectorAll('input[type="checkbox"]').forEach(c => { if (c.checked) opts.push({ name: c.dataset.opt, price: Number(c.dataset.price) || 0 }); });
+        addToCart(id, type, qty, opts);
+      }
+    });
+
+    // Dock WhatsApp button should guide user to checkout if bilgiler eksik
+    document.getElementById('whatsappDock').addEventListener('click', (e) => {
+      const result = buildMessage();
+      if (!result || result.error) {
+        e.preventDefault();
+        toast(result?.error || 'Önce sepet ve iletişim bilgilerini tamamlayın');
+        openCheckout();
+      }
+    });
+
+    // Checkout modal
+    document.getElementById('checkoutBtn').addEventListener('click', () => openCheckout());
+    document.getElementById('cancelCheckout').addEventListener('click', closeCheckout);
+    ['custName','custPhone','custAddress','custNote','deliveryType'].forEach(id => {
+      const el = document.getElementById(id);
+      const ev = el.tagName === 'SELECT' ? 'change' : 'input';
+      el.addEventListener(ev, updatePreview);
+    });
+
+    function openCheckout() {
+      if (!cart.length) { toast('Sepet boş'); return; }
+      document.getElementById('checkoutModal').style.display = 'flex';
+      document.getElementById('checkoutModal').setAttribute('aria-hidden', 'false');
+      updatePreview();
+    }
+    function closeCheckout() {
+      document.getElementById('checkoutModal').style.display = 'none';
+      document.getElementById('checkoutModal').setAttribute('aria-hidden', 'true');
+    }
+
+    function formatPhone(p) {
+      const digits = (p || '').replace(/\D/g, '');
+      if (digits.length === 12 && digits.startsWith('90')) {
+        return `0 (${digits.slice(2,5)}) ${digits.slice(5,8)} ${digits.slice(8,10)} ${digits.slice(10,12)}`;
+      }
+      if (digits.length === 10) {
+        return `0 (${digits.slice(0,3)}) ${digits.slice(3,6)} ${digits.slice(6,8)} ${digits.slice(8,10)}`;
+      }
+      return digits || 'Telefon';
+    }
+
+    function buildMessage() {
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const address = document.getElementById('custAddress').value.trim();
+      const delivery = document.getElementById('deliveryType').value;
+      const note = document.getElementById('custNote').value.trim();
+
+      const missing = [];
+      if (!name) missing.push('Ad Soyad');
+      if (!phone) missing.push('Telefon');
+      if (!address) missing.push('Adres');
+      if (missing.length) return { error: 'Lütfen doldurun: ' + missing.join(', ') };
+      if (!cart.length) return { error: 'Sepet boş' };
+
+      let text = 'Troia Döner siparişim:\n';
+      cart.forEach((line, i) => {
+        const opts = line.options && line.options.length ? `Seçenekler: ${line.options.map(o => o.name + (o.price ? ' +' + fmt(o.price) : '')).join(', ')}` : 'Seçenekler: Belirtilmedi';
+        const optsTotal = (line.options || []).reduce((s, o) => s + (Number(o.price) || 0), 0);
+        const lineTotal = (line.price + optsTotal) * line.qty;
+        const desc = line.desc ? ` - ${line.desc}` : '';
+        text += `${i+1}) ${line.name} x${line.qty}${desc}\n   ${opts}\n   Satır toplamı: ${fmt(lineTotal)}\n`;
+      });
+      const total = cart.reduce((s,l)=> s + (l.price + (l.options||[]).reduce((ss,o)=>ss + (Number(o.price)||0),0)) * l.qty, 0);
+      text += `\nÖdeme tutarı: ${fmt(total)}\n`;
+      text += `Teslimat: ${delivery}\n`;
+      text += `Adres: ${address}\n`;
+      text += `Telefon: ${phone}\n`;
+      if (note) text += `Not: ${note}\n`;
+      text += '\nSiparişim budur, onaylayabilirsiniz.';
+      return { text, total };
+    }
+
+    function updatePreview() {
+      const result = buildMessage();
+      const box = document.getElementById('waPreview');
+      if (!result || result.error) {
+        box.textContent = result && result.error ? result.error : 'Sepet boş.';
+      } else {
+        box.textContent = result.text;
+      }
+      updateWhatsappLink();
+    }
+
+    function updateWhatsappLink() {
+      const result = buildMessage();
+      const waBtn = document.getElementById('whatsappDock');
+      if (!result || result.error) {
+        waBtn.href = '#';
+        return;
+      }
+      const waNumber = config.whatsappNumber || '905415788507';
+      const waText = encodeURIComponent(result.text);
+      waBtn.href = `https://api.whatsapp.com/send?phone=${waNumber}&text=${waText}`;
+    }
+
+    document.getElementById('sendWhatsapp').addEventListener('click', () => {
+      const result = buildMessage();
+      if (!result || result.error) { toast(result.error || 'Eksik bilgi'); return; }
+      const waNumber = config.whatsappNumber || '905415788507';
+      const waText = encodeURIComponent(result.text);
+      window.location.href = `https://api.whatsapp.com/send?phone=${waNumber}&text=${waText}`;
+    });
+
+    // Admin
+    document.getElementById('adminToggle').addEventListener('click', () => {
+      const panel = document.getElementById('adminPanel');
+      const open = panel.style.display === 'block';
+      panel.style.display = open ? 'none' : 'block';
+      panel.setAttribute('aria-hidden', open);
+      if (!open) { renderAdminMenu(); renderAdminDrinks(); }
+    });
+    document.getElementById('closeAdmin').addEventListener('click', () => { document.getElementById('adminPanel').style.display = 'none'; document.getElementById('adminPanel').setAttribute('aria-hidden', 'true'); });
+
+    ['adminLogo','adminTitle','adminSlogan','adminWa'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        config.logoUrl = document.getElementById('adminLogo').value.trim();
+        config.brandTitle = document.getElementById('adminTitle').value.trim() || 'TROIA DÖNER';
+        config.brandSlogan = document.getElementById('adminSlogan').value.trim() || 'Tarihten gelen lezzet – Çanakkale';
+        config.whatsappNumber = document.getElementById('adminWa').value.trim() || '905415788507';
+        renderBrand(); saveConfig(); toast('Marka bilgisi güncellendi');
+      });
+    });
+
+    function renderAdminMenu() {
+      const wrap = document.getElementById('menuEditor');
+      wrap.innerHTML = '';
+      config.menuItems.forEach((item, idx) => {
+        const row = document.createElement('div');
+        row.className = 'admin-row';
+        row.innerHTML = `
+          <div class="admin-grid">
+            <input data-field="category" data-idx="${idx}" value="${item.category}" />
+            <input data-field="name" data-idx="${idx}" value="${item.name}" />
+            <input data-field="price" data-idx="${idx}" value="${item.price}" />
+            <input data-field="image" data-idx="${idx}" value="${item.image || ''}" placeholder="Görsel URL" />
+          </div>
+          <textarea data-field="descMain" data-idx="${idx}" placeholder="Açıklama">${item.descMain || ''}</textarea>
+          <textarea data-field="descExtra" data-idx="${idx}" placeholder="Ek açıklama">${item.descExtra || ''}</textarea>
+          <textarea data-field="options" data-idx="${idx}" placeholder="Seçenekler: Soğansız|0,Acı|5">${(item.options||[]).map(o=>`${o.name}|${o.price||0}`).join(',')}</textarea>
+          <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button class="btn" data-act="delete" data-idx="${idx}">Sil</button>
+          </div>`;
+      wrap.appendChild(row);
+    });
+  }
+
+    function renderAdminDrinks() {
+      const wrap = document.getElementById('drinkEditor');
+      wrap.innerHTML = '';
+      config.drinkItems.forEach((drink, idx) => {
+        const row = document.createElement('div');
+        row.className = 'admin-row';
+        row.innerHTML = `
+          <div class="admin-grid">
+            <input data-dfield="name" data-didx="${idx}" value="${drink.name}" />
+            <input data-dfield="price" data-didx="${idx}" value="${drink.price}" />
+            <input data-dfield="image" data-didx="${idx}" value="${drink.image || ''}" placeholder="Görsel URL" />
+          </div>
+          <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button class="btn" data-dact="delete" data-didx="${idx}">Sil</button>
+          </div>`;
+        wrap.appendChild(row);
+      });
+    }
+
+    document.getElementById('menuEditor').addEventListener('input', (e) => {
+      const idx = e.target.dataset.idx; const field = e.target.dataset.field; if (idx === undefined) return;
+      const item = config.menuItems[idx]; if (!item) return;
+      const val = e.target.value;
+      if (field === 'price') item.price = Number(val) || 0;
+      else if (field === 'options') { item.options = val.split(',').filter(Boolean).map(s => { const [n,p] = s.split('|'); return { name: (n||'').trim(), price: Number(p)||0 }; }); }
+      else item[field] = val;
+      renderMenu(); saveConfig(); toast('Menü güncellendi');
+    });
+
+    document.getElementById('menuEditor').addEventListener('click', (e) => {
+      const btn = e.target.closest('button'); if (!btn) return;
+      if (btn.dataset.act === 'delete') { const idx = Number(btn.dataset.idx); config.menuItems.splice(idx,1); renderAdminMenu(); renderMenu(); saveConfig(); toast('Silindi'); }
+    });
+
+    document.getElementById('addNewItem').addEventListener('click', () => {
+      const cat = document.getElementById('newCat').value.trim() || 'Yeni Kategori';
+      const name = document.getElementById('newName').value.trim();
+      const price = Number(document.getElementById('newPrice').value.trim()) || 0;
+      if (!name) { toast('Ürün adı girin'); return; }
+      const desc = document.getElementById('newDesc').value.trim();
+      const extra = document.getElementById('newExtra').value.trim();
+      const image = document.getElementById('newImg').value.trim();
+      const opts = document.getElementById('newOpts').value.split(',').filter(Boolean).map(s => { const [n,p] = s.split('|'); return { name: (n||'').trim(), price: Number(p)||0 }; });
+      config.menuItems.push({ id: 'm'+Date.now(), category: cat, name, price, descMain: desc, descExtra: extra, image, options: opts });
+      ['newCat','newName','newPrice','newDesc','newExtra','newImg','newOpts'].forEach(id => document.getElementById(id).value='');
+      renderMenu(); renderAdminMenu(); saveConfig(); toast('Eklendi');
+    });
+
+    document.getElementById('drinkEditor').addEventListener('input', (e) => {
+      const idx = e.target.dataset.didx; const field = e.target.dataset.dfield; if (idx === undefined) return;
+      const item = config.drinkItems[idx]; if (!item) return;
+      const val = e.target.value;
+      if (field === 'price') item.price = Number(val) || 0; else item[field] = val;
+      renderDrinks(); saveConfig(); toast('İçecek güncellendi');
+    });
+
+    document.getElementById('drinkEditor').addEventListener('click', (e) => {
+      const btn = e.target.closest('button'); if (!btn) return;
+      if (btn.dataset.dact === 'delete') { const idx = Number(btn.dataset.didx); config.drinkItems.splice(idx,1); renderAdminDrinks(); renderDrinks(); saveConfig(); toast('Silindi'); }
+    });
+
+    document.getElementById('addNewDrink').addEventListener('click', () => {
+      const name = document.getElementById('newDrinkName').value.trim();
+      const price = Number(document.getElementById('newDrinkPrice').value.trim()) || 0;
+      if (!name) { toast('İçecek adı girin'); return; }
+      const image = document.getElementById('newDrinkImg').value.trim();
+      config.drinkItems.push({ id: 'd'+Date.now(), name, price, image });
+      ['newDrinkName','newDrinkPrice','newDrinkImg'].forEach(id => document.getElementById(id).value='');
+      renderDrinks(); renderAdminDrinks(); saveConfig(); toast('İçecek eklendi');
+    });
+
+    document.getElementById('saveConfig').addEventListener('click', () => { saveConfig(); toast('Kaydedildi'); });
+    document.getElementById('resetConfig').addEventListener('click', () => { if (confirm('Varsayılanlara dönülsün mü?')) { config = JSON.parse(JSON.stringify(defaultConfig)); saveConfig(); renderAll(); toast('Varsayılana döndü'); } });
+
+    // Toast helper
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._hide);
+      t._hide = setTimeout(() => t.classList.remove('show'), 1800);
+    }
+
+    function renderAll() {
+      renderBrand();
+      renderMenu();
+      renderDrinks();
+      renderAdminMenu();
+      renderAdminDrinks();
+      renderCart();
+    }
+
+    renderAll();
+
+    // Example backend endpoints (future):
+    // POST /api/send-order { cart, customer, total }
+    // fetch('/api/send-order', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ cart, customer, total }) });
   </script>
 </body>
 </html>
