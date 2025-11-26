@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Troia Döner | Online Sipariş</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { background: radial-gradient(circle at top, #3a2a1b 0, #0d0c10 55%); color:#f5f5f5; }
+
+    a { text-decoration:none; color: inherit; }
+    button { cursor:pointer; }
+
+    .page { max-width: 1000px; margin: 0 auto; padding: 24px 16px 40px; }
+
+    header { text-align:center; padding:16px 0 24px; border-bottom:1px solid rgba(255,255,255,0.06); }
+    header h1 { font-size: 2.4rem; letter-spacing:.2em; text-transform:uppercase; }
+    header h1 span { color:#f5c451; }
+    header p { margin-top:6px; color:#b8b8b8; font-size:.95rem; }
+
+    .hero { display:flex; flex-wrap:wrap; gap:20px; padding:26px 0 10px; align-items:flex-start; }
+    .hero-left { flex:1 1 260px; }
+    .hero-right { flex:1 1 260px; }
+
+    .hero-title { font-size:1.6rem; margin-bottom:10px; }
+    .hero-text { color:#d0d0d0; margin-bottom:12px; }
+
+    .tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+    .tag { border-radius:999px; border:1px solid rgba(255,255,255,0.18); padding:4px 10px; font-size:.78rem; color:#f0f0f0; background:rgba(0,0,0,0.3); }
+
+    .btn-main { display:inline-flex; flex-direction:column; gap:2px; align-items:flex-start; padding:10px 18px; border-radius:999px;
+      background:linear-gradient(135deg,#f6d365,#fda085); color:#1b120a; font-weight:600; border:none; font-size:.95rem; margin-bottom:10px;
+    }
+    .btn-main small { font-size:.75rem; opacity:.8; }
+
+    .today-box { border-radius:14px; border:1px solid rgba(255,255,255,0.18); padding:10px 14px; background:rgba(0,0,0,0.35); }
+    .today-box h3 { font-size:.9rem; text-transform:uppercase; letter-spacing:.08em; color:#f0c56d; margin-bottom:4px; }
+    .today-box p { font-size:.85rem; color:#ddd; }
+
+    .panel { border-radius:16px; border:1px solid rgba(255,255,255,0.15); padding:12px 14px; background:rgba(0,0,0,0.45); max-height:420px; overflow-y:auto; }
+    .panel h3 { font-size:.95rem; margin-bottom:4px; }
+    .panel small { font-size:.75rem; color:#b8b8b8; }
+
+    .panel-item { margin-top:10px; padding-top:8px; border-top:1px dashed rgba(255,255,255,0.1); }
+    .panel-item label { display:block; font-size:.75rem; color:#bbb; margin-bottom:2px; }
+    .panel-item input, .panel-item textarea { width:100%; margin-bottom:4px; border-radius:8px; border:1px solid rgba(255,255,255,0.15);
+      padding:4px 6px; font-size:.8rem; background:#141218; color:#f5f5f5;
+    }
+    .panel-item textarea { resize:vertical; min-height:40px; }
+
+    .panel-row { display:flex; gap:6px; }
+    .panel-row input { flex:1; }
+
+    .panel-actions { display:flex; justify-content:space-between; gap:8px; margin-top:8px; }
+    .btn-small { border-radius:999px; border:1px solid rgba(255,255,255,0.2); background:transparent; color:#f0f0f0; font-size:.75rem; padding:4px 10px; }
+
+    .menu-section { margin-top:26px; }
+    .menu-head { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:10px; gap:8px; }
+    .menu-head h2 { font-size:1.25rem; }
+    .menu-head small { color:#b8b8b8; font-size:.8rem; }
+
+    .menu-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:10px; }
+
+    .card { border-radius:14px; border:1px solid rgba(255,255,255,0.09); background:rgba(0,0
